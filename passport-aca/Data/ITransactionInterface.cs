@@ -1,0 +1,34 @@
+﻿using passport_aca.Model;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace passport_aca.Data
+{
+    public interface ITransactionInterface
+    {
+        Task<MassageInfo> AddTransaction(TransactionInfo transactionInfo);
+
+        Task<SearchModel> search(string id);
+
+
+        Task<TransactionInfoDto> GetTransaction(int id);
+
+        Task<MassageInfo> UpdateTransaction(TransactionInfo transaction);
+
+        Task<MassageInfo> DeleteTransaction(int id);
+
+        Task<List<TransactionInfo>> GetAlltransactions();
+
+        Task<List<reports>> UsersReport();
+
+        Task<Numbers_Of_Reports> Numbers_Of_Reports();
+      
+
+        Task<List<TransactionViewModel>> GetLastFive();
+
+        Task<PageingDtocs> GetAll(int pageNumber, int pageSize);
+        Task<ReportDto> UsersReport(int page,int pageSiz);
+    }
+}
