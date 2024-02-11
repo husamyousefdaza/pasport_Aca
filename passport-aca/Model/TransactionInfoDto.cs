@@ -15,7 +15,7 @@ namespace passport_aca.Model
         public string full_name { get; set; }
         public int transaction_number { get; set; }
         public string recipients_name { get; set; }
-        public string nationality_number { get; set; }
+        public int nationality_number { get; set; }
         public string delivery_date { get; set; }
 
         public string passport_number { get; set; }
@@ -23,8 +23,6 @@ namespace passport_aca.Model
         public string notice { get; set; }
 
         public string passport_status { get; set; }
-
-        public string reason_for_booking { get; set; }
 
         public DateTime create_at { get; set; }
       
@@ -35,7 +33,8 @@ namespace passport_aca.Model
 
         public bool state { get; set; }
         public int UserId { get; set; }
-       
+        public string resevedName { get; set; }
+
 
 
     }

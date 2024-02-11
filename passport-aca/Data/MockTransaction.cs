@@ -30,13 +30,13 @@ namespace passport_aca.Data
             MassageInfo massageInfo = new MassageInfo();
             try {
 
-                TransactionInfo transaction_fullName = new TransactionInfo();
+                TransactionInfo nationality_number = new TransactionInfo();
                 TransactionInfo transaction_passport = new TransactionInfo();
 
-               transaction_fullName = _data.transactions.FirstOrDefault(x => x.full_name == transactionInfo.full_name );
+                nationality_number = _data.transactions.FirstOrDefault(x => x.nationality_number == transactionInfo.nationality_number);
                transaction_passport = _data.transactions.FirstOrDefault(x => x.passport_number == transactionInfo.passport_number);
 
-                if (transaction_fullName == null && transaction_passport == null)
+                if (nationality_number == null && transaction_passport == null)
                 {
                     transactionInfo.create_at = DateTime.Now;
                     transactionInfo.update_at = DateTime.Now; 
@@ -48,14 +48,14 @@ namespace passport_aca.Data
                     await _data.SaveChangesAsync();
                     return massageInfo;
                 }
-                else if (transaction_fullName == null && transaction_passport != null)
+                else if (nationality_number == null && transaction_passport != null)
                 {
                     massageInfo.Massage = "  رقم الجواز موجود مسبقاً ..لم تنجح عملية الإضافة";
                     massageInfo.statuscode = 406;
                     return massageInfo;
 
                 }
-                else if (transaction_fullName != null && transaction_passport == null)
+                else if (nationality_number != null && transaction_passport == null)
                 {
 
                     massageInfo.Massage = "  اسم المستخدم تم تكراره ..لم تنجح عملية الإضافة";
@@ -73,10 +73,10 @@ namespace passport_aca.Data
         
 
             } catch(Exception ) {
-                //massageInfo.statuscode = 400;
-                //massageInfo.Massage = "خطأ في المدخلات";
+                massageInfo.statuscode = 400;
+                massageInfo.Massage = "خطأ في المدخلات";
 
-                //return massageInfo;
+                return massageInfo;
 
                 throw;
             }
@@ -90,25 +90,34 @@ namespace passport_aca.Data
                 
                 List<TransactionInfo> transactions = await _data.transactions.ToListAsync();
 
-                List<TransactionInfo> transaction1 = (List<TransactionInfo>)(from tr in transactions
-                                                                             where tr.passport_status == "موقوف"
+                List<TransactionInfo> stopped = (List<TransactionInfo>)(from tr in transactions
+                                                                             where tr.passport_status == "موقوفة"
                                                                              select tr).ToList();
 
                 List<TransactionInfo> Count = await _data.transactions.ToListAsync();
 
 
-                List<TransactionInfo> transaction2 = (List<TransactionInfo>)(from tr in transactions
-                                                                             where tr.passport_status == "جاهز"
+                List<TransactionInfo> ready = (List<TransactionInfo>)(from tr in transactions
+                                                                             where tr.passport_status == "جاهزة"
                                                                              select tr).ToList();
 
-                 count_of.Count_Of_received= transaction2.Count();
+                List<TransactionInfo> received = (List<TransactionInfo>)(from tr in transactions
+                                                                             where tr.passport_status == "تم تسليمها"
+                                                                             select tr).ToList();
 
-                count_of.Count_Of_all_transaction = Count.Count();
+                List<TransactionInfo> underprocedure = (List<TransactionInfo>)(from tr in transactions
+                                                                             where tr.passport_status == "تحت الاجراء"
+                                                                             select tr).ToList();
 
-                count_of.Count_Of_booking = transaction1.Count();
+                count_of.Count_Of_all_transaction = transactions.Count();
 
+                count_of.Count_Of_received= received.Count();
 
+                count_of.Count_Of_stopped = stopped.Count();
 
+                count_of.Count_Of_ready = ready.Count();
+
+                count_of.Count_Of_Underprocedure = underprocedure.Count();
 
                 return count_of; 
             }
@@ -315,7 +324,6 @@ namespace passport_aca.Data
                         transaction_update.delivery_date = transaction.delivery_date;
                         transaction_update.notice = transaction.notice;
                         transaction_update.passport_status = transaction.passport_status;
-                        transaction_update.reason_for_booking = transaction.reason_for_booking;
                         transaction_update.update_at = DateTime.Now;
                         transaction_update.UserId = transaction.UserId;
 
@@ -336,7 +344,6 @@ namespace passport_aca.Data
                         transaction_update.delivery_date = transaction.delivery_date;
                         transaction_update.notice = transaction.notice;
                         transaction_update.passport_status = transaction.passport_status;
-                        transaction_update.reason_for_booking = transaction.reason_for_booking;
                         transaction_update.update_at = DateTime.Now.Date;
                         transaction_update.UserId = transaction.UserId;
 
@@ -445,11 +452,14 @@ namespace passport_aca.Data
                 trnsactionDto.passport_number = c.passport_number;
                 trnsactionDto.notice = c.notice;
                 trnsactionDto.passport_status = c.passport_status;
-                trnsactionDto.reason_for_booking = c.reason_for_booking;
                 trnsactionDto.UserId = c.UserId;
                 trnsactionDto.passport_status = c.passport_status;
                 trnsactionDto.state = c.state;
                 trnsactionDto.nationality_number = c.nationality_number;
+                trnsactionDto.from_who = c.from_who;
+                trnsactionDto.reason_of_stopping = c.reason_of_stopping;
+                trnsactionDto.date_of_birth = c.date_of_birth;
+                trnsactionDto.resevedName = c.resevedName;
             
                 return trnsactionDto;
 
