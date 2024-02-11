@@ -510,7 +510,7 @@
               </div>
 
 
-              <button class="
+              <button  @click="pr()" class="
                     px-8
                     mr-2
                     bg-green-700
@@ -647,6 +647,18 @@ export default {
     };
   },
   methods: {
+
+
+    pr(){
+
+
+      this.$router.push({
+              name: "incoming_report",
+              params: {
+             
+              },
+            });
+    },
     getTransaction() {
         this.screenFreeze = true;
         this.loading = true;

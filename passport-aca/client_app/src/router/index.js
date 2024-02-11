@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../views/auth/Login.vue'
+import incoming_report from "../views/Reports/incoming_report.vue";
 
 Vue.use(VueRouter)
 
@@ -9,6 +10,14 @@ const routes = [{
         name: 'Login',
         component: Login
     },
+
+    {
+        path: "/incoming_report",
+        name: "incoming_report",
+        component: incoming_report
+    },
+
+    
     {
         path: '/dashboard',
         name: 'Dashboard',
