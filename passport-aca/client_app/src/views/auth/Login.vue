@@ -8,19 +8,68 @@
               تسجيل الدخول إلى حسابك
             </h2>
           </div>
-          <div class="mt-8 space-y-6">
+          <div v-on:keyup.enter="submit" class="mt-8 space-y-6">
             <input type="hidden" name="remember" value="true" />
             <div class="rounded-md shadow-sm -space-y-px">
-              <div>
+              <!-- <div>
                 <label for="email-address" class="sr-only">البريد الإلكتروني</label>
                 <input id="email-address" name="email" type="email" autocomplete="email" required v-model="UserName" class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm" placeholder=" البريد الإلكتروني" />
-              </div>
-              <div>
-                <label for="password" class="sr-only">كلمه المرور</label>
-                <input id="password" name="password" type="password" autocomplete="password" required v-model="Password" class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm" placeholder="كلمه المرور" />
+              </div> -->
+
+
+              <div class="my-4">
+              <label
+                for="email"
+                class="block text-base font-semibold text-gray-800"
+              >
+                المستخدمين
+              </label>
+
+              <div class="relative">
+                <button
+                  @click="usersSelect = !usersSelect"
+                  id="email"
+                  class="text-right block mt-2 w-full rounded-md h-10 border text-sm bg-white border-gray-300 hover:shadow-sm focus:outline-none focus:border-gray-300 p-2" 
+                >
+                  {{ userNameSelected }}
+                </button>
+
+                <div
+                  v-if="usersSelect"
+                  class="border text-sm bg-white border-gray-300 p-2 absolute w-full z-20 shadow h-24 overflow-y-scroll rounded-b-md"
+                >
+                  <button
+                    class="block focus:outline-none w-full my-1 text-right"
+                    @click="
+                      selectUser(user.id, user.username);
+                      usersSelect = !usersSelect;
+                    "
+                    v-for="user in users"
+                    :key="user.id"
+                  >
+                    {{ user.username }}
+                  </button>
+                </div>
               </div>
             </div>
+
+            <label
+                for="email"
+                class="block text-base font-semibold text-gray-800"
+              >
+               كلمة المرور
+              </label>
+
+              <div>
+                <label for="password" class="sr-only">كلمه المرور</label>
+                <input id="password" name="password" type="password" autocomplete="password" required v-model="Password" class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm" />
+              </div>
+
+
+            </div>
             <div>
+
+
               <button @click="submit()" type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md border-primary-golden text-white hover:text-primary-blue bg-primary-golden duration-300 focus:outline-none">
                 <span class="absolute left-0 inset-y-0 flex items-center pl-3">
                     <svg class="h-5 w-5 text-white group-hover:text-primary-blue fill-current duration-300" id="_x31__x2C_5" enable-background="new 0 0 24 24" height="512" viewBox="0 0 24 24" width="512">
@@ -95,7 +144,21 @@
 <script>
 import svgLoadingComponent from '@/components/svgLoadingComponent.vue';
 
+
+
+
+
+
+
 export default {
+
+  mounted() {
+
+   this.GetAllAdministrators();
+  
+},
+
+
   components: {
       svgLoadingComponent
   },
@@ -105,19 +168,59 @@ export default {
         screenFreeze: false,
         loginSuccess: false,
 
+        
+        userNameSelected :"",
+      
+      userIdSelected :"",
+
+
+        usersSelect:false,
+
+
         UserName:'',
         Password:'',
+
+        users:{},
+
 
         user:{}
     };
   },
   methods: {
+
+    selectUser(id, name) {
+      this.userNameSelected = name;
+      this.UserName = name;
+      this.userIdSelected = id;
+    },
+
+
+
+    GetAllAdministrators(){
+      this.loading = true;
+      this.screenFreeze = true;
+
+    
+      this.$http.AdministratorsService
+        .GetAllAdministrators(1,100)
+        .then((res) => {
+          this.loading = false;
+          this.screenFreeze = false;
+
+          this.users = res.data.listofUser;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+
+    },
     
     submit() {
         this.screenFreeze = true;
         this.loading = true;
         var Login = {
-            UserName: this.UserName,
+            UserName: this.userNameSelected,
             Password: this.Password,
         }
 
