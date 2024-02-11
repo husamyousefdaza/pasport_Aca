@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using passport_aca.Model;
 
 namespace passport_aca.Migrations
 {
     [DbContext(typeof(AppDbCont))]
-    partial class AppDbContModelSnapshot : ModelSnapshot
+    [Migration("20240207124634_kk")]
+    partial class kk
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,50 +50,6 @@ namespace passport_aca.Migrations
                     b.HasKey("id");
 
                     b.ToTable("Administrator");
-                });
-
-            modelBuilder.Entity("passport_aca.Model.HistortyName", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("HistortyName");
-                });
-
-            modelBuilder.Entity("passport_aca.Model.Historyes", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("HistortyNameID")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Time")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("changes")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("currentUser")
-                        .HasColumnType("int");
-
-                    b.Property<int>("transactionid")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("HistortyNameID");
-
-                    b.ToTable("History");
                 });
 
             modelBuilder.Entity("passport_aca.Model.TransactionInfo", b =>
@@ -162,17 +120,6 @@ namespace passport_aca.Migrations
                     b.ToTable("transactions");
                 });
 
-            modelBuilder.Entity("passport_aca.Model.Historyes", b =>
-                {
-                    b.HasOne("passport_aca.Model.HistortyName", "HistortyName")
-                        .WithMany("Historyes")
-                        .HasForeignKey("HistortyNameID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("HistortyName");
-                });
-
             modelBuilder.Entity("passport_aca.Model.TransactionInfo", b =>
                 {
                     b.HasOne("Passpport_Raqaba.Model.Administrator", "User")
@@ -187,11 +134,6 @@ namespace passport_aca.Migrations
             modelBuilder.Entity("Passpport_Raqaba.Model.Administrator", b =>
                 {
                     b.Navigation("transactions");
-                });
-
-            modelBuilder.Entity("passport_aca.Model.HistortyName", b =>
-                {
-                    b.Navigation("Historyes");
                 });
 #pragma warning restore 612, 618
         }
