@@ -38,6 +38,7 @@ namespace passport_aca.Controllers
 
 
 
+
         [HttpGet]
         [Route("GetAllAdministrator")]
         public async Task<ActionResult<PageintoinAdmin>> GetAllAdministrator(int page, int pageSize)
