@@ -200,23 +200,14 @@ namespace passport_aca.Data
         {
             try
             {
-           
-
-
+          
                 Administrator user = await _data.Administrator.FirstOrDefaultAsync(x=>x.Username==user1.UserName && x.state==true);
                
-
-
                 if (user != null) {
-                   // var enhancedHashPassword = BCrypt.Net.BCrypt.EnhancedHashPassword(user.Password);
-                 //   var validatePassword = BCrypt.Net.BCrypt.Verify(user.Password, user1.Password);
                     bool isValid = BCrypt.Net.BCrypt.Verify(user1.Password, user.Password);
                     if (isValid)
                     {
-
-
-                        //   user.Password = Securety.dehash(user1.Password);
-
+                    
                         var config = new MapperConfiguration(mc => mc.CreateMap<Administrator, AdministratorDto>());
 
                         var maper = new Mapper(config);
@@ -227,9 +218,10 @@ namespace passport_aca.Data
 
 
                     }
-                    else { 
-                    
-                    
+                    else
+                    {
+                        return null;
+
                     }
 
                 }

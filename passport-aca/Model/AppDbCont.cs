@@ -16,6 +16,10 @@ namespace passport_aca.Model
 
         public DbSet<Administrator> Administrator { get; set; }
 
+        public DbSet<Historyes> History { get; set; }
+
+        public DbSet<HistortyName> HistortyName { get; set; }
+
         public AppDbCont(DbContextOptions<AppDbCont> option) : base(option)
         {
 
