@@ -20,6 +20,10 @@ namespace passport_aca.Model
 
         public DbSet<HistortyName> HistortyName { get; set; }
 
+        public DbSet<Role> Role { get; set; }
+
+        public DbSet<UserRoles> UserRoles { get; set; }
+
         public AppDbCont(DbContextOptions<AppDbCont> option) : base(option)
         {
 

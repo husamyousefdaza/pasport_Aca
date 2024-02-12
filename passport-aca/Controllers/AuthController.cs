@@ -20,7 +20,7 @@ namespace passport_aca.Controllers
         public IAdministratorInterface _data { get; }
         [HttpPost]
         [Route("LoginUser")]
-        public async Task<ActionResult<AdministratorDto>> LoginUser([FromBody] Login user)
+        public async Task<ActionResult<UserWithOnlyRoleNum>> LoginUser([FromBody] Login user)
         {
             MassageInfo massages = new MassageInfo();
             var find = await _data.login(user);

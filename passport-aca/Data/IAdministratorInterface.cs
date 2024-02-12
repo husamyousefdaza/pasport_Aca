@@ -9,7 +9,7 @@ namespace passport_aca.Data
 {
     public interface IAdministratorInterface
     {
-        Task<AdministratorDto> login(Login user);
+        Task<UserWithOnlyRoleNum> login(Login user);
 
         Task<MassageInfo> AddAdministrator(Administrator user);
 

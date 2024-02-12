@@ -12,8 +12,6 @@ namespace passport_aca.Model
         public string Username { get; set; }
         public string Password { get; set; }
 
-        public string Validity { get; set; }
-
         public string name { get; set; }
         public bool state { get; set; }
 

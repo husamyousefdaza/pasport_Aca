@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using passport_aca.Model;
 
 namespace passport_aca.Migrations
 {
     [DbContext(typeof(AppDbCont))]
-    partial class AppDbContModelSnapshot : ModelSnapshot
+    [Migration("20240212115201_hhds")]
+    partial class hhds
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,6 +33,10 @@ namespace passport_aca.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Validity")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -139,8 +145,8 @@ namespace passport_aca.Migrations
                     b.Property<string>("full_name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("nationality_number")
-                        .HasColumnType("bigint");
+                    b.Property<int>("nationality_number")
+                        .HasColumnType("int");
 
                     b.Property<string>("notice")
                         .HasColumnType("nvarchar(max)");

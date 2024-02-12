@@ -15,7 +15,7 @@ namespace passport_aca.Model
         public string full_name { get; set; }
         public int transaction_number { get; set; }
         public string recipients_name { get; set; }
-        public int nationality_number { get; set; }
+        public long nationality_number { get; set; }
         public DateTime delivery_date { get; set; }
 
         public string passport_number { get; set; }

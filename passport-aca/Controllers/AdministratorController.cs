@@ -104,10 +104,10 @@ namespace passport_aca.Controllers
 
         [HttpGet]
         [Route("LoginAdministrator")]
-        public async Task<ActionResult<AdministratorDto>> LoginUser([FromBody]Login user)
+        public async Task<ActionResult<UserWithOnlyRoleNum>> LoginUser([FromBody]Login user)
         {
             MassageInfo massages = new MassageInfo();
-           AdministratorDto  find =  await _data.login(user);
+           UserWithOnlyRoleNum  find =  await _data.login(user);
           
             if (find!=null )
             {

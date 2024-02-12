@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using passport_aca.Model;
 
 namespace passport_aca.Migrations
 {
     [DbContext(typeof(AppDbCont))]
-    partial class AppDbContModelSnapshot : ModelSnapshot
+    [Migration("20240211130209_hh")]
+    partial class hh
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,6 +33,10 @@ namespace passport_aca.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Validity")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -90,27 +96,6 @@ namespace passport_aca.Migrations
                     b.ToTable("History");
                 });
 
-            modelBuilder.Entity("passport_aca.Model.Role", b =>
-                {
-                    b.Property<int>("RoleId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("code")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("state")
-                        .HasColumnType("bit");
-
-                    b.HasKey("RoleId");
-
-                    b.ToTable("Role");
-                });
-
             modelBuilder.Entity("passport_aca.Model.TransactionInfo", b =>
                 {
                     b.Property<int>("id")
@@ -139,8 +124,8 @@ namespace passport_aca.Migrations
                     b.Property<string>("full_name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("nationality_number")
-                        .HasColumnType("bigint");
+                    b.Property<int>("nationality_number")
+                        .HasColumnType("int");
 
                     b.Property<string>("notice")
                         .HasColumnType("nvarchar(max)");
@@ -176,28 +161,6 @@ namespace passport_aca.Migrations
                     b.ToTable("transactions");
                 });
 
-            modelBuilder.Entity("passport_aca.Model.UserRoles", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserRoles");
-                });
-
             modelBuilder.Entity("passport_aca.Model.Historyes", b =>
                 {
                     b.HasOne("passport_aca.Model.HistortyName", "HistortyName")
@@ -220,25 +183,6 @@ namespace passport_aca.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("passport_aca.Model.UserRoles", b =>
-                {
-                    b.HasOne("passport_aca.Model.Role", "Role")
-                        .WithMany("userRoles")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Passpport_Raqaba.Model.Administrator", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Role");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Passpport_Raqaba.Model.Administrator", b =>
                 {
                     b.Navigation("transactions");
@@ -247,11 +191,6 @@ namespace passport_aca.Migrations
             modelBuilder.Entity("passport_aca.Model.HistortyName", b =>
                 {
                     b.Navigation("Historyes");
-                });
-
-            modelBuilder.Entity("passport_aca.Model.Role", b =>
-                {
-                    b.Navigation("userRoles");
                 });
 #pragma warning restore 612, 618
         }

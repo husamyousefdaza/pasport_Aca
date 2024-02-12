@@ -175,7 +175,7 @@ namespace passport_aca.Data
                 foreach (var item in d)
                 {
                     pageing.listofUser.Add(new AdministratorDto()
-                    { id = item.id, name = item.name, Password = item.Password, state = item.state, Username = item.Username, Validity = item.Validity
+                    { id = item.id, name = item.name, Password = item.Password, state = item.state, Username = item.Username 
 
                     });
 
@@ -196,15 +196,17 @@ namespace passport_aca.Data
         }
 
 
-        public async Task<AdministratorDto> login(Login user1)
+        public async Task<UserWithOnlyRoleNum> login(Login user1)
         {
             try
             {
-          
+                UserWithOnlyRoleNum view = new UserWithOnlyRoleNum();
+
                 Administrator user = await _data.Administrator.FirstOrDefaultAsync(x=>x.Username==user1.UserName && x.state==true);
                
                 if (user != null) {
                     bool isValid = BCrypt.Net.BCrypt.Verify(user1.Password, user.Password);
+                 
                     if (isValid)
                     {
                     
@@ -212,9 +214,14 @@ namespace passport_aca.Data
 
                         var maper = new Mapper(config);
 
-                        var userDto = maper.Map<Administrator, AdministratorDto>(user);
+                        view.Administrator = maper.Map<Administrator, AdministratorDto>(user);
 
-                        return userDto;
+                        view.Listrole = await (from userrole in _data.UserRoles.Where(x => x.UserId == user.id)
+                                               join
+                                               role in _data.Role on userrole.RoleId equals role.RoleId
+                                               select role.code).ToListAsync();
+
+                        return view;
 
 
                     }
@@ -249,7 +256,6 @@ namespace passport_aca.Data
                     UpdateUser.name     = user.name;
                     UpdateUser.Password = user.Password;
                     UpdateUser.Username = user.Username;
-                    UpdateUser.Validity = user.Validity;
                     _data.Administrator.Update(UpdateUser);
                     await _data.SaveChangesAsync();
                     massageInfo.Massage = "تمت عملية التحديث ";

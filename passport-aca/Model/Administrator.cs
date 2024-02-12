@@ -18,8 +18,6 @@ namespace Passpport_Raqaba.Model
         [Required]
         public string Password { get; set; }
         [Required]
-        public string Validity { get; set; }
-        [Required]
         public string name { get; set; }
 
         public bool state { get; set; }
