@@ -559,38 +559,39 @@
 
                         <div class="w-full mt-4 rounded-md overflow-hidden divide-y-2 divide-gray-200">
                             <div class="flex items-center bg-white w-full">
-                                <div class="w-2/12 py-4 pr-2">
+                                <div class="w-1/12  text-center">
                                       رقم المعاملة
                                 </div>
-                                <div class="w-3/12">
+                                <div class="w-4/12 text-center">
                                     الاسم
                                 </div>
-                                <div class="w-3/12">
+                                <div class="w-3/12 text-center">
                                     الإجراء
                                 </div>
-                                <div class="w-2/12">
+                                <div class="w-3/12 text-center">
                                     تاريخ التصوير
                                 </div>
-                                <div class="w-2/12 pl-2">
+                                <div class="w-1/12 pl-2 text-center">
                                     رقم الإيصال المالي
                                 </div>
                             </div>
 
                             <div class="divide-y divide-gray-200 min-h-72 bg-white">
                                 <router-link :to="{ name: 'TransactionsFormEdit', params: { transaction: transaction.id },}" v-for="transaction in Transactions" :key="transaction.id" class="w-full bg-white hover:shadow flex items-center">
-                                    <div class="w-2/12 py-4 pr-2 font-semibold text-black">
-                                        {{ transaction.finacial_recipt_number }}
+                                    <div class="w-1/12  font-semibold text-black text-center">
+                                        {{ transaction.id }}
                                     </div>
-                                    <div class="w-3/12">
+                                    <div class="w-4/12 text-center">
                                         {{ transaction.full_name }}
                                     </div>
-                                    <div class="w-3/12">
-                                        {{ transaction.recipients_name }}
+                                    <div class="w-3/12 text-center">
+                                        {{ transaction.passport_status }}
                                     </div>
-                                    <div class="w-2/12">
+                                    <div class="w-3/12 text-center">
                                         {{ transaction.delivery_date }}
                                     </div>
-                                    <div class="w-2/12 font-semibold text-black pl-2">
+                                    
+                                    <div class="w-1/12  text-center  pl-2">
                                         {{ transaction.passport_status }}
                                     </div>
                                 </router-link>
@@ -619,7 +620,9 @@ import svgLoadingComponent from '@/components/svgLoadingComponent.vue';
 export default {
   created() {},
   mounted() {
-    //  this.getTransaction();
+      this.getTransaction();
+
+     //  this.GetLastFiveTransactions();
   },
   components: {
       asideComponent,

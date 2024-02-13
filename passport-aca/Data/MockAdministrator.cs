@@ -21,16 +21,18 @@ namespace passport_aca.Data
 
         public AppDbCont _data { get; }
         
-        public async Task<MassageInfo> AddAdministrator(Administrator user)
+        public async Task<MassageInfo> AddAdministrator(UserWithOnlyRoleNum user)
         {
             MassageInfo massageInfo = new MassageInfo();
             try
             {
                 if(user!=null)
                 {
-                    user.state = true;
-                    await _data.Administrator.AddAsync(user);
+                   
+                    user.Administrator.state = true;
+                    await _data.Administrator.AddAsync(user.Administrator);
                     await _data.SaveChangesAsync();
+
                     massageInfo.Massage = "تمت عملية الأضافة ";
                     massageInfo.statuscode = 201;
                     return massageInfo;
@@ -214,11 +216,11 @@ namespace passport_aca.Data
 
                         var maper = new Mapper(config);
 
-                        view.Administrator = maper.Map<Administrator, AdministratorDto>(user);
+                        view.Administrator = user;
 
                         view.Listrole = await (from userrole in _data.UserRoles.Where(x => x.UserId == user.id)
-                                               join
-                                               role in _data.Role on userrole.RoleId equals role.RoleId
+                                              join
+                                              role in _data.Role on userrole.RoleId equals role.RoleId
                                                select role.code).ToListAsync();
 
                         return view;
@@ -278,6 +280,9 @@ namespace passport_aca.Data
             }
         }
 
-        
+        public Task<MassageInfo> AddAdministrator(Administrator user)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

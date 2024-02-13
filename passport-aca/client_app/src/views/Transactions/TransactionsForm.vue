@@ -32,29 +32,30 @@
                                             <label for="birthdate" class=" text-sm font-medium text-gray-700 w-36">
                                                 تاريخ الميلاد
                                             </label>
-                                            <input type="date" v-model="transactionInfo.passport_number" id="birthdate" class="px-2 focus:outline-none focus:shadow hover:shadow-sm rounded-md w-full h-8 text-sm border-gray-300">
+                                            <input type="date" v-model="transactionInfo.birthdate" id="birthdate" class="px-2 focus:outline-none focus:shadow hover:shadow-sm rounded-md w-full h-8 text-sm border-gray-300">
                                         </div>
 
                                         <div class="col-span-3 flex items-center justify-between">
-                                            <label for="passport" class=" text-sm font-medium text-gray-700 w-36">
+                                            <label for="nationality_number" class=" text-sm font-medium text-gray-700 w-36">
                                                 الرقم الوطني
                                             </label>
-                                            <input type="number" v-model="transactionInfo.nationality_number" id="passport" class="px-2 focus:outline-none focus:shadow hover:shadow-sm rounded-md w-full h-8 text-sm border-gray-300">
+                                            <input type="number" v-model="transactionInfo.nationality_number" id="nationality_number" class="px-2 focus:outline-none focus:shadow hover:shadow-sm rounded-md w-full h-8 text-sm border-gray-300">
                                         </div>
 
                                         <div class="col-span-3 flex items-center justify-between">
-                                            <label for="recipientname" class=" text-sm font-medium text-gray-700 w-36">
+                                            <label for="finacial_recipt_number" class=" text-sm font-medium text-gray-700 w-36">
                                                 رقم الإيصال المالي
                                             </label>
-                                            <input type="number" v-model="transactionInfo.recipients_name" id="recipientname" class="px-2 focus:outline-none focus:shadow hover:shadow-sm rounded-md w-full h-8 text-sm border-gray-300">
+                                            <input type="number" v-model="transactionInfo.finacial_recipt_number" id="finacial_recipt_number" class="px-2 focus:outline-none focus:shadow hover:shadow-sm rounded-md w-full h-8 text-sm border-gray-300">
                                         </div>
 
                                         
                                         <div class="col-span-3 flex items-center justify-between">
-                                            <label for="name2" class=" text-sm font-medium text-gray-700 w-36">
+                                            <label for="from_who" class=" text-sm font-medium text-gray-700 w-36">
                                                 من طرف من
                                             </label>
-                                            <input type="text" v-model="transactionInfo.full_name" id="name2" autocomplete="name2" class="px-2 focus:outline-none focus:shadow hover:shadow-sm rounded-md w-full h-8 text-sm border-gray-300">
+                                                                                                    
+                                            <input type="text" v-model="transactionInfo.from_who" id="from_who" autocomplete="from_who" class="px-2 focus:outline-none focus:shadow hover:shadow-sm rounded-md w-full h-8 text-sm border-gray-300">
                                         </div>
 
                                   
@@ -63,21 +64,21 @@
                
 
               <div class="col-span-3 flex items-center justify-between">
-                                            <label for="date" class=" text-sm font-medium text-gray-700 w-36">
+                                            <label for="date_of_photography" class=" text-sm font-medium text-gray-700 w-36">
                                                 تاريخ التصوير
                                             </label>
-                                            <input type="date" v-model="transactionInfo.delivery_date" id="date" class="px-2 focus:outline-none focus:shadow hover:shadow-sm rounded-md w-full h-8 text-sm border-gray-300">
+                                            <input type="date" v-model="transactionInfo.date_of_photography" id="date_of_photography" class="px-2 focus:outline-none focus:shadow hover:shadow-sm rounded-md w-full h-8 text-sm border-gray-300">
                                         </div>
 
 
               <div class="col-span-3 flex items-center justify-between">
-                                            <label for="transactionnumber" class=" text-sm font-medium text-gray-700 w-36">
+                                            <label for="transaction_number" class=" text-sm font-medium text-gray-700 w-36">
                                                 رقم المعاملة
                                             </label>
-                                            <div
+                                            <div 
                                             class="px-2 focus:outline-none focus:shadow hover:shadow-sm rounded-md w-full pt-2 h-8 text-sm border-gray-300 bg-white text-center"
                   >
-                    22
+                   {{ transactionInfo.transaction_number }}
                   </div>
                                         </div>
 
@@ -97,37 +98,37 @@
 
 
   <div class="flex items-center mr-8">
-    <input  id="internal" type="radio" name="type" class="h-4 w-4" value="1" />
-    <label for="internal" class="mr-2 block text-gray-800">
+    <input v-model="transactionInfo.classification" id="first_time" type="radio" name="type1" class="h-4 w-4" value="أول مرة" />
+    <label for="first_time" class="mr-2 block text-gray-800">
       أول مرة
     </label>
   </div>
 
   <div  class="flex items-center mr-6">
-    <input  id="internal_export2" type="radio" name="type" class="h-4 w-4" value="2" />
-    <label for="internal_export2" class="mr-2 block text-gray-800">
+    <input v-model="transactionInfo.classification" id="renewal" type="radio" name="type1" class="h-4 w-4" value="تجديد" />
+    <label for="renewal" class="mr-2 block text-gray-800">
       تجديد
     </label>
   </div>
 
   <div  class="flex items-center mr-6">
-    <input  id="internal_export" type="radio" name="type" class="h-4 w-4" value="4" />
-    <label for="internal_export" class="mr-2 block text-gray-800">
+    <input v-model="transactionInfo.classification" id="damaged_replacement" type="radio" name="type1" class="h-4 w-4" value="بدل تالف" />
+    <label for="damaged_replacement" class="mr-2 block text-gray-800">
       بدل تالف
     </label>
   </div>
 
 
   <div class="flex items-center mr-6">
-    <input  id="exter" type="radio" name="type" class="h-4 w-4" value="3" />
-    <label for="exter" class="mr-2 block text-gray-800">
+    <input v-model="transactionInfo.classification" id="replacement_of_lost" type="radio" name="type1" class="h-4 w-4" value="بدل فاقد" />
+    <label for="replacement_of_lost" class="mr-2 block text-gray-800">
       بدل فاقد
     </label>
   </div>
 
   <div  class="flex items-center mr-6">
-    <input  id="internal_export" type="radio" name="type" class="h-4 w-4" value="4" />
-    <label for="internal_export" class="mr-2 block text-gray-800">
+    <input v-model="transactionInfo.classification" id="page_finisher" type="radio" name="type1" class="h-4 w-4" value="منتهي الصفحات" />
+    <label for="page_finisher" class="mr-2 block text-gray-800">
       منتهي الصفحات
     </label>
   </div>
@@ -135,6 +136,10 @@
 </div>
 
                      </fieldset>
+
+
+
+
 
                                     </div>
                                 </div>
@@ -175,21 +180,21 @@
 
 
         <div class="flex items-center mr-8">
-            <input  id="internal" type="radio" v-model="transactionInfo.passport_status" name="type" class="h-4 w-4" value="1" />
-            <label for="internal" class="mr-2 block text-gray-800">
+            <input  id="Underprocedure" type="radio" v-model="transactionInfo.passport_status" name="type" class="h-4 w-4" value="تحت الإجراء" />
+            <label for="Underprocedure" class="mr-2 block text-gray-800">
             تحت الإجراء
             </label>
         </div>
 
         <div  class="flex items-center mr-6">
-            <input  id="internal_export2" type="radio" v-model="transactionInfo.passport_status" name="type" class="h-4 w-4" value="2" />
-            <label for="internal_export2" class="mr-2 block text-gray-800">
+            <input  id="ready" type="radio" v-model="transactionInfo.passport_status" name="type" class="h-4 w-4" value="جاهزة" />
+            <label for="ready" class="mr-2 block text-gray-800">
             جاهزة
             </label>
         </div>
 
         <div  class="flex items-center mr-6">
-            <input  id="stopped" type="radio" v-model="transactionInfo.passport_status" name="type" class="h-4 w-4" value="موقوف" />
+            <input  id="stopped" type="radio" v-model="transactionInfo.passport_status" name="type" class="h-4 w-4" value="موقوفة" />
             <label for="stopped" class="mr-2 block text-gray-800">
             موقوفة
             </label>
@@ -199,8 +204,8 @@
 
 
         <div class="flex items-center mr-6">
-            <input  id="exter" type="radio" v-model="transactionInfo.passport_status" name="type" class="h-4 w-4" value="3" />
-            <label for="exter" class="mr-2 block text-gray-800">
+            <input  id="received" type="radio" v-model="transactionInfo.passport_status" name="type" class="h-4 w-4" value="تم تسليمها" />
+            <label for="received" class="mr-2 block text-gray-800">
             تم تسليمها
             </label>
         </div>
@@ -243,13 +248,13 @@
                                             </div>
                                         </div> -->
 
-                                        <div class="col-span-6" v-if="transactionInfo.passport_status == 'موقوف'">
+                                        <div class="col-span-6" v-if="transactionInfo.passport_status == 'موقوفة'">
                                             <div class="flex items-center justify-between">
-                                                <label for="about" class="block text-sm font-medium text-gray-700 w-32">
+                                                <label for="reason_of_stopping" class="block text-sm font-medium text-gray-700 w-32">
                                                     سبب الإيقاف
                                                 </label>
                                                 <div class="w-full">
-                                                    <textarea id="about" v-model="transactionInfo.reason_for_booking" rows="3" class="p-2 focus:outline-none focus:shadow hover:shadow-sm rounded-md w-full text-sm border-gray-300"></textarea>
+                                                    <textarea id="reason_of_stopping" v-model="transactionInfo.reason_of_stopping" rows="3" class="p-2 focus:outline-none focus:shadow hover:shadow-sm rounded-md w-full text-sm border-gray-300"></textarea>
                                                     <p class="text-sm text-gray-500">اكتب الأسباب.</p>
                                                 </div>
                                             </div>
@@ -273,32 +278,27 @@
                                                          
                      
 
-                                        <div class="col-span-3 flex items-center justify-between">
-                                            <label for="name3" class=" text-sm font-medium text-gray-700 w-36">
-                                                اسم صاحب الجواز
-                                            </label>
-                                            <input type="text" v-model="transactionInfo.full_name" id="name4" autocomplete="name3" class="px-2 focus:outline-none focus:shadow hover:shadow-sm rounded-md w-full h-8 text-sm border-gray-300">
-                                        </div>
+                                    
 
                                         <div class="col-span-3 flex items-center justify-between">
-                                            <label for="name4" class=" text-sm font-medium text-gray-700 w-36">
+                                            <label for="resevedName" class=" text-sm font-medium text-gray-700 w-36">
                                                 اسم المستلم
                                             </label>
-                                            <input type="text" v-model="transactionInfo.full_name" id="name4" autocomplete="name4" class="px-2 focus:outline-none focus:shadow hover:shadow-sm rounded-md w-full h-8 text-sm border-gray-300">
+                                            <input type="text" v-model="transactionInfo.resevedName" id="resevedName" autocomplete="resevedName" class="px-2 focus:outline-none focus:shadow hover:shadow-sm rounded-md w-full h-8 text-sm border-gray-300">
                                         </div>
 
                                         <div class="col-span-3 flex items-center justify-between">
-                                            <label for="date2" class=" text-sm font-medium text-gray-700 w-36">
+                                            <label for="delivery_date" class=" text-sm font-medium text-gray-700 w-36">
                                                 تاريخ الإستلام
                                             </label>
-                                            <input type="date" v-model="transactionInfo.passport_number" id="date2" class="px-2 focus:outline-none focus:shadow hover:shadow-sm rounded-md w-full h-8 text-sm border-gray-300">
+                                            <input type="date" v-model="transactionInfo.delivery_date" id="delivery_date" class="px-2 focus:outline-none focus:shadow hover:shadow-sm rounded-md w-full h-8 text-sm border-gray-300">
                                         </div>
 
                                         <div class="col-span-3 flex items-center justify-between">
-                                            <label for="number2" class=" text-sm font-medium text-gray-700 w-36">
+                                            <label for="passport_number" class=" text-sm font-medium text-gray-700 w-36">
                                                 رقم الجواز
                                             </label>
-                                            <input type="text" v-model="transactionInfo.full_name" id="number2" autocomplete="number2" class="px-2 focus:outline-none focus:shadow hover:shadow-sm rounded-md w-full h-8 text-sm border-gray-300">
+                                            <input type="text" v-model="transactionInfo.passport_number" id="passport_number" autocomplete="passport_number" class="px-2 focus:outline-none focus:shadow hover:shadow-sm rounded-md w-full h-8 text-sm border-gray-300">
                                         </div>
 
                                
@@ -487,18 +487,45 @@ export default {
         this.screenFreeze = true;
         this.loading = true;
         var transactionInfoToSend = {
+
+
+
             full_name: this.transactionInfo.full_name,
             passport_number: this.transactionInfo.passport_number,
-            recipients_name: this.transactionInfo.recipients_name,
-            delivery_date: this.transactionInfo.delivery_date,
-            finacial_recipt_number: Number(this.transactionInfo.finacial_recipt_number),
-            transaction_number: Number(this.transactionInfo.transaction_number),
-            notice: this.transactionInfo.notice,
-            passport_status: String(this.transactionInfo.passport_status),
-            reason_for_booking: this.transactionInfo.reason_for_booking,
-            nationality_number: this.transactionInfo.nationality_number,
             
-            UserId:this.transactionInfo.UserId,
+            delivery_date: this.transactionInfo.delivery_date,
+
+            finacial_recipt_number: Number(this.transactionInfo.finacial_recipt_number),
+
+          //  transaction_number: Number(this.transactionInfo.transaction_number),
+
+           
+            passport_status: String(this.transactionInfo.passport_status),
+
+            
+            nationality_number: this.transactionInfo.nationality_number,
+            resevedName:  this.transactionInfo.resevedName,
+            date_of_birth:this.transactionInfo.date_of_birth,
+
+            from_who:this.transactionInfo.from_who,
+
+            reason_of_stopping:this.transactionInfo.reason_of_stopping,
+
+
+            date_of_photography: this.transactionInfo.date_of_photography,
+
+            
+
+            birthdate: this.transactionInfo.birthdate,
+
+            classification:  this.transactionInfo.classification,
+            
+           
+            
+           
+
+            
+            UserId:Number(sessionStorage.getItem("user_id") ),
         }
 
         if(this.$route.params.transaction){

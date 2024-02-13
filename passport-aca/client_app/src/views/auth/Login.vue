@@ -236,13 +236,18 @@ export default {
 
                     this.user = res.data
 
-                    this.$authenticatedUser.userId = this.user.id
+                    this.$authenticatedUser.userId = this.user.administrator.id
 
-                    localStorage.setItem("userId", this.user.id);
+                    
 
-                    this.$authenticatedUser.name = this.user.name
-                    this.$authenticatedUser.userName = this.user.username
-                    this.$authenticatedUser.validity = this.user.validity
+
+                    sessionStorage.setItem("user_id", this.user.administrator.id);
+                    sessionStorage.setItem("user_role", this.user.administrator.listrole);
+
+
+                    this.$authenticatedUser.name = this.user.administrator.name
+                    this.$authenticatedUser.userName = this.user.administrator.username
+                    this.$authenticatedUser.validity = this.user.administrator.validity
 
                 }, 100);
                 

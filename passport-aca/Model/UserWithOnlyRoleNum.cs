@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Passpport_Raqaba.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace passport_aca.Model
         {
             this.Listrole = new List<string>();
         }
-        public AdministratorDto Administrator { get; set; }
+        public Administrator Administrator { get; set; }
         public List<string> Listrole { get; set; }
 
     }

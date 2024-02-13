@@ -106,8 +106,8 @@ namespace passport_aca.Data
                                                                              select tr).ToList();
 
                 List<TransactionInfo> underprocedure = (List<TransactionInfo>)(from tr in transactions
-                                                                             where tr.passport_status == "تحت الاجراء"
-                                                                             select tr).ToList();
+                                                                             where tr.passport_status == "تحت الإجراء"
+                                                                               select tr).ToList();
 
                 count_of.Count_Of_all_transaction = transactions.Count();
 
@@ -312,19 +312,23 @@ namespace passport_aca.Data
                     if (transaction_u == null)
                     {
                         transaction_update.full_name = transaction.full_name;
+
                         transaction_update.passport_number = transaction.passport_number;
 
+                        transaction_update.picture_date = transaction.picture_date;
 
-                        transaction_update.recipients_name = transaction.recipients_name;
-
-
+                        transaction_update.classification = transaction.classification;
 
                         transaction_update.finacial_recipt_number = transaction.finacial_recipt_number;
+                        
                         transaction_update.transaction_number = transaction.transaction_number;
+                        
                         transaction_update.delivery_date = transaction.delivery_date;
-                        transaction_update.notice = transaction.notice;
+                        
                         transaction_update.passport_status = transaction.passport_status;
+                        
                         transaction_update.update_at = DateTime.Now;
+                        
                         transaction_update.UserId = transaction.UserId;
 
                         _data.transactions.Update(transaction_update);
@@ -337,14 +341,20 @@ namespace passport_aca.Data
                     }
                     else
                     {
-                        transaction_update.recipients_name = transaction.recipients_name;
+                        transaction_update.picture_date = transaction.picture_date;
+
+                        transaction_update.classification = transaction.classification;
 
                         transaction_update.finacial_recipt_number = transaction.finacial_recipt_number;
+
                         transaction_update.transaction_number = transaction.transaction_number;
+
                         transaction_update.delivery_date = transaction.delivery_date;
-                        transaction_update.notice = transaction.notice;
+
                         transaction_update.passport_status = transaction.passport_status;
+
                         transaction_update.update_at = DateTime.Now.Date;
+
                         transaction_update.UserId = transaction.UserId;
 
                         _data.transactions.Update(transaction_update);
@@ -444,21 +454,37 @@ namespace passport_aca.Data
                 TransactionInfoDto trnsactionDto = new TransactionInfoDto();
 
                 trnsactionDto.id = c.id;
+
                 trnsactionDto.finacial_recipt_number = c.finacial_recipt_number;
+
                 trnsactionDto.full_name = c.full_name;
+
                 trnsactionDto.transaction_number = c.transaction_number;
-                trnsactionDto.recipients_name = c.recipients_name;
-                trnsactionDto.delivery_date = c.delivery_date.ToString("yyyy-MM-dd");
+
+                trnsactionDto.picture_date = c.picture_date;
+
+                trnsactionDto.classification = c.classification;
+
+                trnsactionDto.delivery_date = c.delivery_date;
+               
                 trnsactionDto.passport_number = c.passport_number;
-                trnsactionDto.notice = c.notice;
+               
                 trnsactionDto.passport_status = c.passport_status;
+
                 trnsactionDto.UserId = c.UserId;
+
                 trnsactionDto.passport_status = c.passport_status;
+
                 trnsactionDto.state = c.state;
+
                 trnsactionDto.nationality_number = c.nationality_number;
+
                 trnsactionDto.from_who = c.from_who;
+
                 trnsactionDto.reason_of_stopping = c.reason_of_stopping;
+
                 trnsactionDto.date_of_birth = c.date_of_birth;
+
                 trnsactionDto.resevedName = c.resevedName;
             
                 return trnsactionDto;
@@ -488,13 +514,12 @@ namespace passport_aca.Data
                 {
                     pageing.TransactionList.Add(new TransactionViewModel()
                     {
-                        delivery_date = item.delivery_date.ToString("yyyy-MM-dd"),
+                        picture_date = item.picture_date.ToString("yyyy-MM-dd"),
                         finacial_recipt_number = item.finacial_recipt_number,
                         full_name = item.full_name,
                         id = item.id,
 
                         passport_status = item.passport_status,
-                        recipients_name = item.recipients_name,
                        
 
                     });
@@ -524,13 +549,13 @@ namespace passport_aca.Data
             {
                 list.Add(new TransactionViewModel()
                 {
-                    delivery_date = item.delivery_date.ToString("yyyy-MM-dd"),
+                    picture_date = item.picture_date.ToString("yyyy-MM-dd"),
                     finacial_recipt_number=item.finacial_recipt_number,
                     full_name=item.full_name,
                     id=item.id,
                     
                     passport_status=item.passport_status,
-                    recipients_name=item.recipients_name
+                   
                     
                 }) ;
 

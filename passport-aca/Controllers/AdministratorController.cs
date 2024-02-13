@@ -123,16 +123,16 @@ namespace passport_aca.Controllers
         [HttpPost]
         [Route("AddAdministrator")]
 
-        public async Task<ActionResult<MassageInfo>> Adduser([FromBody]Administrator user) {
+        public async Task<ActionResult<MassageInfo>> Adduser([FromBody] UserWithOnlyRoleNum user) {
           //  var l = Securety.hash(user.Password);
             //user.Password = l;
 
-     user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
+          user.Administrator.Password = BCrypt.Net.BCrypt.HashPassword(user.Administrator.Password);
 
        
 
             //var c = BCrypt.Net.BCrypt.EnhancedHashPassword(user.Password);
-            MassageInfo massages = await _data.AddAdministrator(user);
+            MassageInfo massages = await _data.AddAdministrator(user.Administrator);
             if (massages.statuscode==201)
             {
 

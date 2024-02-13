@@ -22,7 +22,7 @@
                                                 <div class="">معاملات تحت الإجراء
                                                     <p class="text-gray-900"></p>
                                                     <p class="font-bold text-primary-blue text-3xl mt-2 text-right">
-                                                        {{ Reports.count_Of_all_transaction }}
+                                                        {{ Reports.count_Of_Underprocedure }}
                                                     </p>
                                                 </div>
                                                 <div class="w-16 h-16 -mt-8 bg-primary-golden flex justify-center items-center">
@@ -40,7 +40,7 @@
                                                 <div class="">
                                                     <p class="text-gray-900">معاملات جاهزة</p>
                                                     <p class="font-bold text-primary-blue text-3xl mt-2 text-right">
-                                                        {{ Reports.count_Of_all_transaction }}
+                                                        {{ Reports.count_Of_ready }}
                                                     </p>
                                                 </div>
                                                 <div class="w-16 h-16 -mt-8 bg-primary-golden flex justify-center items-center">
@@ -75,7 +75,7 @@
                                                 <div class="">
                                                     <p class="text-gray-900">المعاملات المحجوزة</p>
                                                     <p class="font-bold text-primary-blue text-3xl mt-2 text-right">
-                                                        {{ Reports.count_Of_booking }}
+                                                        {{ Reports.count_Of_stopped }}
                                                     </p>
                                                 </div>
                                                 <div class="w-16 h-16 -mt-8 bg-primary-golden flex justify-center items-center">
@@ -184,7 +184,7 @@ export default {
 
   mounted() {
     this.GetNumbersOfReports();
-    this.GetLastFiveTransactions();
+  //  this.GetLastFiveTransactions();
   },
 
   components: {
@@ -253,9 +253,10 @@ export default {
                     this.loading = false;
 
                     this.Reports.count_Of_all_transaction = res.data.count_Of_all_transaction;
-                    this.Reports.count_Of_booking = res.data.count_Of_booking;
+                    this.Reports.count_Of_stopped = res.data.count_Of_stopped;
                     this.Reports.count_Of_received = res.data.count_Of_received;
-
+                    this.Reports.count_Of_Underprocedure= res.data.count_Of_Underprocedure;
+                    this.Reports.count_Of_ready= res.data.count_Of_ready;
                 }, 100);
                 
             })
