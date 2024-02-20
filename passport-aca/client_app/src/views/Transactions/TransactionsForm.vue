@@ -314,9 +314,9 @@
                                         إلغاء
                                     </router-link>
 
-                                    <button v-if="showDelete" @click="deleteUser()" class="mr-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-500 duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    <!-- <button v-if="showDelete" @click="deleteUser()" class="mr-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-500 duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                         حذف
-                                    </button>
+                                    </button> -->
 
                                     <button @click="submit()" class="mr-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-golden hover:bg-primary-blue duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                         {{ submitText }}
@@ -426,17 +426,24 @@ export default {
         pageTitle:'',
         submitText:'',
         transactionInfo:{
+
             full_name:'',
             passport_number:'',
-            recipients_name:'',
+            birthdate:"",
+
             delivery_date:'',
             finacial_recipt_number:'',
             transaction_number:'',
-            notice:'',
+            classification:"",
+            date_of_photography:"",
+            from_who:"",
+            resevedName:"",
             passport_status:'',
-            reason_for_booking:'',
+            reason_of_stopping :"",
+           
             nationality_number:'',
-            UserId:this.$authenticatedUser.userId,
+
+            UserId:Number(sessionStorage.getItem("user_id") ),
         }
     };
   },
@@ -453,15 +460,83 @@ export default {
                 this.screenFreeze = false;
                 this.loading = false;
                 var respons = res.data
-                this.transactionInfo.full_name = respons.full_name
-                this.transactionInfo.passport_number = respons.passport_number
-                this.transactionInfo.recipients_name = respons.recipients_name
-                this.transactionInfo.delivery_date = respons.delivery_date
+
+                
+                var date1 = new Date(respons.date_of_birth);
+                var date2 = new Date(respons.picture_date);
+                var date3 = new Date(respons.delivery_date);
+
+
+                var month1 = date1.getMonth() + 1;
+                var day1 = date1.getDate();
+
+                var month2 = date2.getMonth() + 1;
+                var day2 = date2.getDate();
+
+                var month3 = date3.getMonth() + 1;
+                var day3 = date3.getDate();
+
+
+
+if (month1 < 10) month1 = "0" + month1;
+if (day1 < 10) day1 = "0" + day1;
+
+if (month2 < 10) month2 = "0" + month2;
+if (day2 < 10) day2 = "0" + day2;
+
+if (month3 < 10) month3 = "0" + month3;
+if (day3 < 10) day3 = "0" + day3;
+
+
+
+
+this.transactionInfo.birthdate  = date1.getFullYear() + "-" + month1 + "-" + day1;
+this.transactionInfo.date_of_photography  = date2.getFullYear() + "-" + month2 + "-" + day2;
+this.transactionInfo.delivery_date  = date3.getFullYear() + "-" + month3 + "-" + day3;
+
+
+
+
+
+           
+           
+           
+            
+            
+    
+
+
+            
+
+
+
+            
+            
+            
+           
+
+                this.transactionInfo.full_name = respons.full_name,
+                this.transactionInfo.passport_number = respons.passport_number,
+                
+                
+                
+                this.transactionInfo.classification =  respons.classification  ,
+
+                
+
+
+                this.transactionInfo.from_who =  respons.from_who,
+
+                
+
                 this.transactionInfo.finacial_recipt_number = respons.finacial_recipt_number
                 this.transactionInfo.transaction_number = respons.transaction_number
-                this.transactionInfo.notice = respons.notice
+               
                 this.transactionInfo.passport_status = respons.passport_status
-                this.transactionInfo.reason_for_booking = respons.reason_for_booking
+
+                this.transactionInfo.resevedName= respons.resevedName ,
+                this.transactionInfo.reason_of_stopping =  respons.reason_of_stopping,
+
                 this.transactionInfo.nationality_number = respons.nationality_number
 
                 
@@ -491,34 +566,47 @@ export default {
 
 
             full_name: this.transactionInfo.full_name,
+            date_of_birth: this.transactionInfo.birthdate,
+            nationality_number: this.transactionInfo.nationality_number,
+            finacial_recipt_number: Number(this.transactionInfo.finacial_recipt_number),
+            from_who:this.transactionInfo.from_who,
+            picture_date: this.transactionInfo.date_of_photography,
+            passport_status: String(this.transactionInfo.passport_status),
+
+
+            classification:  this.transactionInfo.classification,
+
+
+
+            resevedName:  this.transactionInfo.resevedName,
             passport_number: this.transactionInfo.passport_number,
             
             delivery_date: this.transactionInfo.delivery_date,
 
-            finacial_recipt_number: Number(this.transactionInfo.finacial_recipt_number),
+            reason_of_stopping:this.transactionInfo.reason_of_stopping,
 
           //  transaction_number: Number(this.transactionInfo.transaction_number),
 
            
-            passport_status: String(this.transactionInfo.passport_status),
+            
 
             
-            nationality_number: this.transactionInfo.nationality_number,
-            resevedName:  this.transactionInfo.resevedName,
-            date_of_birth:this.transactionInfo.date_of_birth,
-
-            from_who:this.transactionInfo.from_who,
-
-            reason_of_stopping:this.transactionInfo.reason_of_stopping,
-
-
-            date_of_photography: this.transactionInfo.date_of_photography,
+            
+            
+            
 
             
 
-            birthdate: this.transactionInfo.birthdate,
+            
 
-            classification:  this.transactionInfo.classification,
+
+            
+
+            
+
+            
+
+            
             
            
             

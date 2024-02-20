@@ -588,11 +588,11 @@
                                         {{ transaction.passport_status }}
                                     </div>
                                     <div class="w-3/12 text-center">
-                                        {{ transaction.delivery_date }}
+                                        {{ transaction.picture_date}}
                                     </div>
                                     
                                     <div class="w-1/12  text-center  pl-2">
-                                        {{ transaction.passport_status }}
+                                        {{ transaction.finacial_recipt_number }}
                                     </div>
                                 </router-link>
                             </div>
