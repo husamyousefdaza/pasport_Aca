@@ -26,21 +26,24 @@ namespace passport_aca.Data
         
         public async Task<MassageInfo> AddTransaction(TransactionInfo transactionInfo)
         {
-            DateTime date = transactionInfo.delivery_date.Date;
+           
             MassageInfo massageInfo = new MassageInfo();
             try {
-
+                int year = DateTime.Now.Year;
+                int LastNumber = 0;
                 TransactionInfo nationality_number = new TransactionInfo();
-                TransactionInfo transaction_passport = new TransactionInfo();
+                TransactionInfo finacial_recipt_number = new TransactionInfo();
+                TransactionInfo transaction_number = new TransactionInfo();
 
                 nationality_number = _data.transactions.FirstOrDefault(x => x.nationality_number == transactionInfo.nationality_number);
-               transaction_passport = _data.transactions.FirstOrDefault(x => x.passport_number == transactionInfo.passport_number);
+                finacial_recipt_number = _data.transactions.FirstOrDefault(x => x.finacial_recipt_number == transactionInfo.finacial_recipt_number);
 
-                if (nationality_number == null && transaction_passport == null)
+                if (nationality_number == null && finacial_recipt_number == null)
                 {
+                    transaction_number = await _data.transactions.Where(x=>x.create_at.Date.Year == year).LastOrDefaultAsync();
+                    transactionInfo.transaction_number = transaction_number.transaction_number + 1;
                     transactionInfo.create_at = DateTime.Now;
-                    transactionInfo.update_at = DateTime.Now; 
-                    transactionInfo.delivery_date = date;
+                    transactionInfo.update_at = DateTime.Now;                   
                     transactionInfo.state = true;
                     await _data.transactions.AddAsync(transactionInfo);
                     massageInfo.Massage = " تمت عملية الاضافة بنجاح";
@@ -48,24 +51,24 @@ namespace passport_aca.Data
                     await _data.SaveChangesAsync();
                     return massageInfo;
                 }
-                else if (nationality_number == null && transaction_passport != null)
+                else if (nationality_number == null && finacial_recipt_number != null)
                 {
-                    massageInfo.Massage = "  رقم الجواز موجود مسبقاً ..لم تنجح عملية الإضافة";
+                    massageInfo.Massage = "  رقم الايصال المالي موجود مسبقاً ..لم تنجح عملية الإضافة";
                     massageInfo.statuscode = 406;
                     return massageInfo;
 
                 }
-                else if (nationality_number != null && transaction_passport == null)
+                else if (nationality_number != null && finacial_recipt_number == null)
                 {
 
-                    massageInfo.Massage = "  اسم المستخدم تم تكراره ..لم تنجح عملية الإضافة";
+                    massageInfo.Massage = "  الرقم الوطني تم تكراره ..لم تنجح عملية الإضافة";
                     massageInfo.statuscode = 406;
                     return massageInfo;
 
                 }
                 else {
 
-                    massageInfo.Massage = "  اسم المستخدم و رقم الجواز تم تكراره ..لم تنجح عملية الإضافة";
+                    massageInfo.Massage = "  الرقم الوطني و رقم الايصال المالي تم تكراره ..لم تنجح عملية الإضافة";
                     massageInfo.statuscode = 406;
                     return massageInfo;
 
@@ -331,6 +334,10 @@ namespace passport_aca.Data
                         
                         transaction_update.UserId = transaction.UserId;
 
+                        transaction_update.date_of_birth = transaction.date_of_birth;
+
+                        transaction_update.resevedName = transaction.resevedName;
+
                         _data.transactions.Update(transaction_update);
                         await _data.SaveChangesAsync();
 
@@ -514,6 +521,10 @@ namespace passport_aca.Data
                 {
                     pageing.TransactionList.Add(new TransactionViewModel()
                     {
+                        
+                        transaction_number = item.transaction_number,
+                        fromWho =item.from_who,
+                        delivery_date=item.delivery_date.ToString("yyyy-MM-dd"),
                         picture_date = item.picture_date.ToString("yyyy-MM-dd"),
                         finacial_recipt_number = item.finacial_recipt_number,
                         full_name = item.full_name,
