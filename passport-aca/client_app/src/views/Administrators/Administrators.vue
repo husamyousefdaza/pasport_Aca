@@ -18,12 +18,7 @@
                             <div class="w-4/12 py-4 pr-2">
                                 الاسم
                             </div>
-                            <div class="w-4/12">
-                                اسم المستخدم
-                            </div>
-                            <div class="w-4/12 pl-2">
-                                الصلاحية
-                            </div>
+                        
                         </div>
 
                         <div class="divide-y divide-gray-200 min-h-80 bg-white">
@@ -31,12 +26,7 @@
                                 <div class="w-4/12 py-4 pr-2 font-semibold text-black">
                                     {{ administrato.name }}
                                 </div>
-                                <div class="w-4/12">
-                                    {{ administrato.username }}
-                                </div>
-                                <div class="w-4/12 pl-2">
-                                    {{ administrato.validity }}
-                                </div>
+                           
                             </router-link>
                         </div>
 

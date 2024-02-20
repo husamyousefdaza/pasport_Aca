@@ -45,14 +45,14 @@
                   style="margin-left: 16px; margin-top: 16px"
                 >
                   <span class="ml-2" style="margin-left: 8px">
-                    تقرير بالمعاملات المنجزة إلى  {{ this.current_department_name}}  للفترة من
+                    تقرير بالمعاملات المنجزة  للفترة من
                   </span>
   
                   <span
                     class="mr-2 ml-2"
                     style="margin-right: 8px; margin-left: 8px"
                   >
-                    {{ this.$route.params.dateFrom }}
+                     {{ this.$route.params.dateFrom }}  
                   </span>
   
                   <span
@@ -173,7 +173,7 @@
                 </div>
   
                 <div
-                  v-for="(mail, index) in mails"
+                  v-for="(mail, index) in Transactions"
                   :key="index"
                   class="
                     w-full
@@ -238,7 +238,7 @@
                       align-items: center;
                     "
                   >
-                    {{ mail.mail_Number }}
+                    {{ mail.transaction_number }}
                   </div>
   
                   <div
@@ -255,7 +255,7 @@
                       
                     "
                   >
-                    {{ mail.send_time }}
+                    {{ mail.full_name }}
                   </div>
   
                   <div
@@ -272,7 +272,7 @@
                       
                     "
                   >
-                    <span class=""> {{ mail.mangment_sender }}</span>
+                    <span class=""> {{ mail.picture_date }}</span>
                   </div>
   
                   <div
@@ -290,13 +290,13 @@
                       
                     "
                   >
-                    {{ mail.masure_type }}
+                    {{ mail.finacial_recipt_number }}
                   </div>
   
                   <div
                     class="text-right border-black border-l-2 px-1 pt-1 pb-0.5 flex justify-center items-center"
                     style="
-                      width: 23%;
+                      width: 22%;
                       text-align: right;
                       border-left: 2px solid black;
                       padding-left: 0.25rem/* 4px */;
@@ -307,7 +307,7 @@
                       
                     "
                   >
-                    {{ mail.summary }}
+                    {{ mail.from_who }}
                   </div>
   
                   <div
@@ -322,7 +322,7 @@
                       display: flex; justify-content: center; align-items: center;
                     "
                   >
-                    {{ mail.action_require }}
+                    {{ mail.delivery_date }}
                   </div>
                 </div>
               </div>
@@ -349,7 +349,8 @@
               justify-center
             "
             
-              @click="printpage(), printHistory()"
+            
+              @click="printpage()"
             >
               <span class="text-sm font-bold block ml-1">طباعة</span>
   
@@ -428,6 +429,9 @@
       if (day < 10) day = "0" + day;
   
       this.date = date.getFullYear() + "-" + month + "-" + day;
+
+      this.getTransaction() ;
+      
     },
   
     data() {
@@ -435,11 +439,42 @@
         mails: [],
   
         date: "",
+
+        Transactions:[],
+
+
         current_department_name:localStorage.getItem("current_department_name"),
       };
     },
   
     methods: {
+
+      getTransaction() {
+        this.screenFreeze = true;
+        this.loading = true;
+        this.$http.TransactionsService
+            .GetAllTransactions(1, 100000)
+            .then((res) => {
+                setTimeout(() => {
+                    this.screenFreeze = false;
+                    this.loading = false;
+                    this.Transactions = res.data.transactionList;
+                    this.totalOfTransaction = res.data.totalOfTransaction
+                }, 100);
+                
+            })
+            .catch((err) => {
+                setTimeout(() => {
+                    this.screenFreeze = false;
+                    this.loading = false;
+                    console.log(err);
+                }, 100);
+                
+                
+            });
+    },
+
+
       printpage() {
         this.$htmlToPaper("print");
       },
@@ -465,7 +500,7 @@
       },
   
       back() {
-        this.$router.push("/inbox");
+        this.$router.push("/Transactions");
       },
     },
   };

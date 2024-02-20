@@ -4,14 +4,53 @@
         <div class="h-screen bg-white overflow-hidden flex">
             <asideComponent></asideComponent>
             <div class="flex-1 bg-gray-200 w-0 overflow-y-auto pb-10">
+
+              <div class="flex items-center w-full  justify-center  mt-6">
+                <span class="text-base font-medium text-gray-800">
+                  التاريخ :
+                </span>
+
+                <span class="flex items-center mr-4">
+                  من
+                  <input type="date" min="2000-01-01" max="2040-12-30" id="date_from" v-model="date_from" class="
+                        block
+                        mr-2
+                        w-full
+                        rounded-md
+                        h-10
+                        border border-gray-200
+                        hover:shadow-sm
+                        focus:outline-none focus:border-gray-300
+                        px-2
+                      " />
+                </span>
+
+                <span class="flex items-center mr-4">
+                  إلي
+                  <input type="date" min="2000-01-01" max="2040-12-30" id="date_to" v-model="date_to" class="
+                        block
+                        mr-2
+                        w-full
+                        rounded-md
+                        h-10
+                        border border-gray-200
+                        hover:shadow-sm
+                        focus:outline-none focus:border-gray-300
+                        px-2
+                      " />
+                </span>
+              </div>
+
                 <div class="mx-4    flex flex-col md:px-8 xl:px-0">
                     <navComponent></navComponent>
+
+                    
+               
                     <main class="flex-1 relative focus:outline-none">
                         <div class="py-6 px-4 sm:px-6 md:px-0 flex justify-between items-center">
 
                             
                             <h1 class="text-xl font-semibold text-primary-blue ml-2">المعاملات</h1>
-
 
                             
 
@@ -620,6 +659,23 @@ import svgLoadingComponent from '@/components/svgLoadingComponent.vue';
 export default {
   created() {},
   mounted() {
+
+
+    var date = new Date();
+
+var month = date.getMonth() + 1;
+var day = date.getDate();
+
+
+
+if (month < 10) month = "0" + month;
+if (day < 10) day = "0" + day;
+
+this.date_from = "2024" + "-" + month + "-" + day;
+this.date_to = date.getFullYear() + "-" + month + "-" + day;
+
+
+
       this.getTransaction();
 
      //  this.GetLastFiveTransactions();
@@ -643,7 +699,7 @@ export default {
         screenFreeze: false,
 
         page: 1,
-        pagesize: 6,
+        pagesize:10,
         totalOfTransaction : 0,
 
         filter: false,
@@ -658,7 +714,8 @@ export default {
       this.$router.push({
               name: "incoming_report",
               params: {
-             
+                dateFrom: this.date_from,
+                dateTo: this.date_to,
               },
             });
     },

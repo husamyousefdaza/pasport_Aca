@@ -44,27 +44,68 @@
                                     </div>
 
                                     <div class="col-span-3">
-                                        <div class="flex items-center justify-between">
-                                            <label for="about" class="block text-sm font-medium text-gray-700 w-32">
-                                                الصلاحية
-                                            </label>
-                                            <div class="w-full flex items-center">
-                                                <div class="flex items-center">
-                                                    <input id="Administrator" v-model="Administrators.validity" value="مسؤول" name="push_notifications" type="radio" class="h-4 w-4 border-gray-300">
-                                                    <label for="Administrator" class="mr-2 text-sm font-medium text-gray-700">
-                                                        مسؤول
-                                                    </label>
-                                                </div>
+                                        <div class="flex items-center w-full justify-between">
+                                            
+                                            
+              <label for="roles" class="font-medium text-gray-700">
+                الصلاحيات
+              </label>
 
+              <div class="relative w-full">
+                <button
+                  @click="roleselect = !roleselect"
+                  id="roles"
+                  class="
+                  overflow-hidden
+                  text-right
+                  block
+                  mt-2
+                  w-full
+                  rounded-md
+                  h-10
+                  border
+                  bg-white
+                  border-gray-200
+                  hover:shadow-sm
+                  focus:outline-none focus:border-gray-300
+                  p-2
+                "
+                >
+                  {{ roleNameselected }}
+                </button>
 
-                                                <div class="flex items-center mr-8">
-                                                    <input id="Dataentry" v-model="Administrators.validity" value="مدخل بيانات" name="push_notifications" type="radio" class="h-4 w-4 border-gray-300">
-                                                    <label for="Dataentry" class="mr-2 text-sm font-medium text-gray-700">
-                                                        مدخل بيانات
-                                                    </label>
-                                                </div>
-                                                
-                                            </div>
+                <div
+                  v-if="roleselect"
+                  class="
+                  border
+                  text-sm
+                  bg-white
+                  border-gray-200
+                  p-2
+                  absolute
+                  w-full
+                  z-20
+                  shadow
+                  h-36
+                  overflow-y-scroll
+                  rounded-b-md
+                "
+                >
+                  <button
+                    class="block focus:outline-none w-full my-1 text-right"
+                    @click="
+                      selectrole(role.roleId, role.name, index);
+                      roleselect = !roleselect;
+                    "
+                    v-for="(role, index) in roles"
+                    :key="role.roleId"
+                  >
+                    {{ role.name }}
+                  </button>
+                </div>
+              </div>
+            
+
                                         </div>
                                     </div>
 
@@ -188,6 +229,8 @@ export default {
         pageTitle:'',
         submitText:'',
 
+        roleselect:false,
+
         Administrators:{
             name:'',
             username:'',
@@ -197,6 +240,19 @@ export default {
     };
   },
   methods: {
+
+    GetAllRoles() {
+      this.$http.AdministratorsService
+        .GetAllRoles()
+        .then((res) => {
+          this.roles = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+
+
     checkAddOrUpdate(){
         this.screenFreeze = true;
         this.loading = true;
