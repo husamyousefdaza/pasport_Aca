@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using passport_aca.Model;
 using System;
 using System.Collections.Generic;
@@ -92,7 +93,7 @@ namespace passport_aca.Data
         {
             try
             {
-                List<Role> listOfRole = _data.Role.OrderBy(x => x.RoleId).Where(x => x.state == true).ToList();
+                List<Role> listOfRole = await _data.Role.OrderBy(x => x.RoleId).Where(x => x.state == true).ToListAsync();
 
                 List<RoleDto> list = new List<RoleDto>();
 

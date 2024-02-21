@@ -30,7 +30,7 @@ namespace passport_aca.Data
             MassageInfo massageInfo = new MassageInfo();
             try {
                 int year = DateTime.Now.Year;
-                int LastNumber = 0;
+              
                 TransactionInfo nationality_number = new TransactionInfo();
                 TransactionInfo finacial_recipt_number = new TransactionInfo();
                 TransactionInfo transaction_number = new TransactionInfo();
@@ -89,32 +89,33 @@ namespace passport_aca.Data
         {
             try
             {
+                MassageInfo massageInfo = new MassageInfo();
                 Numbers_Of_Reports count_of = new Numbers_Of_Reports();
                 
-                List<TransactionInfo> transactions = await _data.transactions.ToListAsync();
+              //  List<TransactionInfo> transactions = await _data.transactions.ToListAsync();
 
-                List<TransactionInfo> stopped = (List<TransactionInfo>)(from tr in transactions
+                List<TransactionInfo> stopped = await(from tr in _data.transactions
                                                                              where tr.passport_status == "موقوفة"
-                                                                             select tr).ToList();
+                                                                             select tr).ToListAsync();
 
                 List<TransactionInfo> Count = await _data.transactions.ToListAsync();
 
 
-                List<TransactionInfo> ready = (List<TransactionInfo>)(from tr in transactions
+                List<TransactionInfo> ready = await(from tr in _data.transactions
                                                                              where tr.passport_status == "جاهزة"
-                                                                             select tr).ToList();
+                                                                             select tr).ToListAsync();
 
-                List<TransactionInfo> received = (List<TransactionInfo>)(from tr in transactions
+                List<TransactionInfo> received = await(from tr in _data.transactions
                                                                              where tr.passport_status == "تم تسليمها"
-                                                                             select tr).ToList();
+                                                                             select tr).ToListAsync();
 
-                List<TransactionInfo> underprocedure = (List<TransactionInfo>)(from tr in transactions
+                List<TransactionInfo> underprocedure = await(from tr in _data.transactions
                                                                              where tr.passport_status == "تحت الإجراء"
-                                                                               select tr).ToList();
+                                                                               select tr).ToListAsync();
 
-                count_of.Count_Of_all_transaction = transactions.Count();
+//                count_of.Count_Of_all_transaction = transactions.Count();
 
-                count_of.Count_Of_received= received.Count();
+                count_of.Count_Of_received = received.Count();
 
                 count_of.Count_Of_stopped = stopped.Count();
 
@@ -122,11 +123,12 @@ namespace passport_aca.Data
 
                 count_of.Count_Of_Underprocedure = underprocedure.Count();
 
+                count_of.Count_Of_all_transaction = count_of.Count_Of_received + count_of.Count_Of_stopped + count_of.Count_Of_ready + count_of.Count_Of_Underprocedure;
+
                 return count_of; 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
                 throw;
             }
      }
