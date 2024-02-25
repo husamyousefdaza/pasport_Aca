@@ -33,7 +33,7 @@ namespace passport_aca
             services.AddDbContext<AppDbCont>(option => option.UseSqlServer(Configuration.GetConnectionString("AppContext")));
             services.AddTransient<ITransactionInterface, MockTransaction>();
             services.AddTransient<IAdministratorInterface, MockAdministrator>();
-
+          //  services.AddTransient<GenericInterface<Role, RoleDto>, MockRole>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

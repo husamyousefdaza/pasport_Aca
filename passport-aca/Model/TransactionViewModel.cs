@@ -15,6 +15,7 @@ namespace passport_aca.Model
         public string passport_status { get; set; }
         public string fromWho { get; set; }
         public string delivery_date { get; set; }
+    
 
     }
 }
