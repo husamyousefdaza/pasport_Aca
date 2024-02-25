@@ -307,7 +307,7 @@
                       
                     "
                   >
-                    {{ mail.from_who }}
+                    {{ mail.fromWho }}
                   </div>
   
                   <div

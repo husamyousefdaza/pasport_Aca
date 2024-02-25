@@ -688,6 +688,10 @@ this.date_to = date.getFullYear() + "-" + month + "-" + day;
   data() {
     return {
 
+      date_from:"",
+
+      date_to:"",
+      
       dd:false,
         userId: this.$authenticatedUser.userId,
         name: this.$authenticatedUser.name,

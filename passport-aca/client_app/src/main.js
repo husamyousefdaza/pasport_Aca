@@ -6,15 +6,32 @@ import './assets/css/tailwind.css';
 import DataService from './services/DataService.js';
 import Pagination from 'vue-pagination-2';
 Vue.component('pagination', Pagination);
-import Print from 'vue-print-nb'
+
 // Global instruction 
-Vue.use(Print);
+
 
 
 Vue.config.productionTip = false
 
 Vue.prototype.$http = DataService;
-import VueHtmlToPaper from "vue-html-to-paper";
+
+import VueHtmlToPaper1 from "vue-html-to-paper";
+
+
+// const options = {
+//     name: 'report',
+//     specs: [
+//         'fullscreen=yes',
+//         'titlebar=yes',
+//         'scrollbars=yes'
+//     ],
+//     styles: [
+//         'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css',
+//         'https://unpkg.com/kidlat-css/css/kidlat.css',
+//         'https://unpkg.com/tailwindcss-jit-cdn',
+
+//     ]
+// }
 
 Vue.prototype.$authenticatedUser = {
     userId: 0,
@@ -22,6 +39,12 @@ Vue.prototype.$authenticatedUser = {
     userName: null,
     validity: null,
 };
+
+ Vue.use(VueHtmlToPaper1);
+// Vue.use(VueHtmlToPaper, options)
+
+
+
 
 
 new Vue({
