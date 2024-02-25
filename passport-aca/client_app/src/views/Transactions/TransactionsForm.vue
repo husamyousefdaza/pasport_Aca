@@ -340,13 +340,13 @@
                         <p class="text-lg font-medium text-primary-golden">
                              المستخدمين
                         </p>
-                        <router-link :to="{ name: 'Transactions' }" class="focus:outline-none">
+                        <button @click="AddEditAlert=false ,screenFreeze=false" class="focus:outline-none">
                             <svg class="w-6 h-6 stroke-current text-base hover:text-red-500 duration-300" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M7.86 2H16.14L22 7.86V16.14L16.14 22H7.86L2 16.14V7.86L7.86 2Z"  stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 <path d="M15 9L9 15"  stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 <path d="M9 9L15 15"  stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
-                        </router-link>
+                        </button>
                     </div>
 
                     <div class="">
@@ -356,9 +356,16 @@
                     </div>
 
                     <div class="">
-                        <router-link :to="{ name: 'Transactions' }" class="py-2 px-8 border border-transparent shadow-sm text-sm font-medium rounded-md text-primary-golden border-primary-golden hover:bg-primary-golden hover:text-white duration-300 focus:outline-none">
+                        <!-- <router-link :to="{ name: 'TransactionsForm' }" class="py-2 px-8 border border-transparent shadow-sm text-sm font-medium rounded-md text-primary-golden border-primary-golden hover:bg-primary-golden hover:text-white duration-300 focus:outline-none">
                             رجوع
-                        </router-link>
+                        </router-link> -->
+
+
+                        <button @click="AddEditAlert=false ,screenFreeze=false " class="py-2 px-8 border border-transparent shadow-sm text-sm font-medium rounded-md text-primary-golden border-primary-golden hover:bg-primary-golden hover:text-white duration-300 focus:outline-none">
+                            رجوع
+                        </button>
+
+
                     </div>
                 </div>
             </div>
@@ -425,13 +432,14 @@ export default {
         AddEditMessage:'',
         pageTitle:'',
         submitText:'',
+
         transactionInfo:{
 
             full_name:'',
             passport_number:'',
             birthdate:"",
 
-            delivery_date:'',
+            delivery_date:"0000-00-00",
             finacial_recipt_number:'',
             transaction_number:'',
             classification:"",
@@ -473,8 +481,8 @@ export default {
                 var month2 = date2.getMonth() + 1;
                 var day2 = date2.getDate();
 
-                var month3 = date3.getMonth() + 1;
-                var day3 = date3.getDate();
+               var month3 = date3.getMonth() + 1;
+               var day3 = date3.getDate();
 
 
 
@@ -587,32 +595,6 @@ this.transactionInfo.delivery_date  = date3.getFullYear() + "-" + month3 + "-" +
 
           //  transaction_number: Number(this.transactionInfo.transaction_number),
 
-           
-            
-
-            
-            
-            
-            
-
-            
-
-            
-
-
-            
-
-            
-
-            
-
-            
-            
-           
-            
-           
-
-            
             UserId:Number(sessionStorage.getItem("user_id") ),
         }
 

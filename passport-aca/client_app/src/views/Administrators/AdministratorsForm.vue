@@ -22,13 +22,7 @@
                                 </div>
 
                                 <div class="mt-6 grid gap-y-6 gap-x-4 grid-cols-6">
-                                    <div class="col-span-3 flex items-center justify-between">
-                                        <label for="name" class=" text-sm font-medium text-gray-700 w-32">
-                                            الاسم بالكامل
-                                        </label>
-                                        <input type="text" v-model="Administrators.name" name="name" id="name" autocomplete="name" class="px-2 focus:outline-none focus:shadow hover:shadow-sm rounded-md w-full h-8 text-sm border-gray-300">
-                                    </div>
-
+                                  
                                     <div class="col-span-3 flex items-center justify-between">
                                         <label for="username" class=" text-sm font-medium text-gray-700 w-32">
                                             اسم المستخدم
@@ -43,8 +37,50 @@
                                         <input type="password" v-model="Administrators.password" name="password" id="password" class="px-2 focus:outline-none focus:shadow hover:shadow-sm rounded-md w-full h-8 text-sm border-gray-300">
                                     </div>
 
+
                                     <div class="col-span-3">
-                                        <div class="flex items-center w-full justify-between">
+              <span class="font-medium text-gray-700 col-span-3">حالة الحساب</span>
+
+              <div class="flex items-center mt-2 justify-around">
+                <div class="flex items-center">
+                  <input
+                    id="active"
+                    type="radio"
+                    class="h-4 w-4 border-gray-300"
+                    value="true"
+                    v-model="state1"
+                  />
+
+                  <label
+                    for="active"
+                    class="mr-3 text-sm font-medium text-gray-700"
+                  >
+                    مفعل
+                  </label>
+                </div>
+
+                <div class="flex items-center">
+                  <input
+                    id="deactive"
+                    type="radio"
+                    class="h-4 w-4"
+                    value=""
+                    v-model="state1"
+                  />
+
+                  <label
+                    for="deactive"
+                    class="mr-3 text-sm font-medium text-gray-700"
+                  >
+                    غير مفعل
+                  </label>
+                </div>
+              </div>
+            </div>
+
+
+                                    <div class="col-span-6">
+                                        <div class=" items-center w-full justify-between">
                                             
                                             
               <label for="roles" class="font-medium text-gray-700">
@@ -108,6 +144,72 @@
 
                                         </div>
                                     </div>
+
+                                    <div class="col-span-6">
+              <span class="font-medium text-gray-700">الصلاحيات المتاحة</span>
+
+              <div
+                class="
+                mt-2
+                w-full
+                max-h-40
+                overflow-y-scroll
+                grid grid-cols-3
+                gap-2
+                bg-white
+                shadow-sm
+                rounded-md
+                px-1
+              "
+              >
+                <span v-if="!pirms[0]" class="h-10"></span>
+
+                <div
+                  class="
+                  flex
+                  border
+                  items-center
+                  text-center
+                  justify-around
+                  border-green-300
+                  rounded-md
+                  p-1
+                "
+                  v-for="pirm in pirms"
+                  :key="pirm.roleId"
+                >
+                  <span class="px-2 w-full p-1">{{ pirm.name }}</span>
+
+                  <button
+                    @click="remove_role(pirm.name, pirm.roleId)"
+                    class="mr-1 ml-2 p-1 rounded-full"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      focusable="false"
+                      data-prefix="far"
+                      data-icon="times-circle"
+                      class="
+                      w-5
+                      h-5
+                      stroke-current
+                      text-red-400
+                      hover:text-red-500
+                      duration-200
+                    "
+                      role="img"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 512 512"
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm101.8-262.2L295.6 256l62.2 62.2c4.7 4.7 4.7 12.3 0 17l-22.6 22.6c-4.7 4.7-12.3 4.7-17 0L256 295.6l-62.2 62.2c-4.7 4.7-12.3 4.7-17 0l-22.6-22.6c-4.7-4.7-4.7-12.3 0-17l62.2-62.2-62.2-62.2c-4.7-4.7-4.7-12.3 0-17l22.6-22.6c4.7-4.7 12.3-4.7 17 0l62.2 62.2 62.2-62.2c4.7-4.7 12.3-4.7 17 0l22.6 22.6c4.7 4.7 4.7 12.3 0 17z"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
 
                                 </div>
                             </div>
@@ -209,6 +311,7 @@ export default {
 
   mounted() {
       this.checkAddOrUpdate();
+      this.GetAllRoles();
   },
 
   components: {
@@ -225,11 +328,19 @@ export default {
         showDelete: false,
         AddEditAlert: false,
 
+
+        state1: "true",
+
+        pirms: [],
+      roles1: [],
         AddEditMessage:'',
         pageTitle:'',
         submitText:'',
 
         roleselect:false,
+
+        roleNameselected:"",
+        roles:[],
 
         Administrators:{
             name:'',
@@ -293,10 +404,10 @@ export default {
         this.screenFreeze = true;
         this.loading = true;
         var administratoInfoToSend = {
-            name : this.Administrators.name,
+            
             username : this.Administrators.username,
             password : this.Administrators.password,
-            validity : this.Administrators.validity,
+            state: Boolean(this.state1),
         }
 
         if(this.$route.params.administrato){
