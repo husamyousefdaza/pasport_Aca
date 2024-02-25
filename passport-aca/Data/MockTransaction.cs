@@ -40,9 +40,12 @@ namespace passport_aca.Data
 
                 if (nationality_number == null && finacial_recipt_number == null)
                 {
-                    transaction_number = await _data.transactions.Where(x=>x.create_at.Date.Year == year).LastOrDefaultAsync();
-                    transactionInfo.transaction_number = transaction_number.transaction_number + 1;
                     transactionInfo.create_at = DateTime.Now;
+
+                    transaction_number = await _data.transactions.OrderBy(x=>x.transaction_number).Where(x=>x.create_at.Date.Year == year).LastOrDefaultAsync();
+                    if (transaction_number != null) { transactionInfo.transaction_number = transaction_number.transaction_number + 1; } else { transactionInfo.transaction_number = 1; }
+
+                    transactionInfo.transaction_year = transactionInfo.create_at.Year;
                     transactionInfo.update_at = DateTime.Now;                   
                     transactionInfo.state = true;
                     await _data.transactions.AddAsync(transactionInfo);
@@ -75,7 +78,7 @@ namespace passport_aca.Data
                 }
         
 
-            } catch(Exception ) {
+            } catch(Exception ex) {
                 massageInfo.statuscode = 400;
                 massageInfo.Massage = "خطأ في المدخلات";
 
@@ -546,7 +549,7 @@ namespace passport_aca.Data
 
                 return pageing;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 throw;
             }

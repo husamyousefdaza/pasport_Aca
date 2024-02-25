@@ -20,7 +20,7 @@ namespace passport_aca.Controllers
             _data = Roles;
 
         }
-        private readonly GenericInterface<Role, RoleDto> _data;
+       public readonly GenericInterface<Role, RoleDto> _data;
 
 
 

@@ -43,6 +43,8 @@ namespace passport_aca.Model
 
         public DateTime picture_date { get; set; }
 
+        public int transaction_year { get; set; }
+
         public string classification { get; set; }
 
 

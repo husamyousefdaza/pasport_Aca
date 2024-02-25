@@ -19,10 +19,10 @@ namespace passport_aca.Model
         public int transaction_number { get; set; }
         
         public long nationality_number { get; set; }
-        
-        public DateTime delivery_date { get; set; }//
+       
+        public DateTime delivery_date { get; set; } 
              
-        public string passport_number { get; set; }//
+        public string passport_number { get; set; }
         
         public string passport_status { get; set; }
        
@@ -30,7 +30,7 @@ namespace passport_aca.Model
 
         public DateTime update_at { get; set; }
       
-        public string resevedName { get; set; }//
+        public string resevedName { get; set; }
 
         public bool state { get; set; }
 
@@ -43,6 +43,8 @@ namespace passport_aca.Model
         public int UserId { get; set; }
         
         public DateTime picture_date { get; set; }
+
+        public int transaction_year{ get; set; }
 
         public string classification { get; set; }
 
