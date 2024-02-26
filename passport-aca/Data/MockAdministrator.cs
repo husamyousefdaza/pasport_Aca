@@ -13,13 +13,18 @@ namespace passport_aca.Data
 
     public class MockAdministrator : IAdministratorInterface
     {
-        public MockAdministrator(AppDbCont data)
+
+        public MockAdministrator(AppDbCont data, IMapper mapper)
         {
             _data = data;
 
+            _mapper = mapper;
+
         }
 
-        public AppDbCont _data { get; }
+        private AppDbCont _data { get; }
+        private IMapper _mapper { get; }
+     
         
         public async Task<MassageInfo> AddAdministrator(UserWithOnlyRoleNum user)
         {
@@ -174,27 +179,36 @@ namespace passport_aca.Data
             }
         }
 
-        public async Task<AdministratorDto> GetAdministrator(int id)
+        public async Task<UserView> GetAdministrator(int id)
         {
+
             try
             {
-                Administrator user = await _data.Administrator.FindAsync(id);
-                var config = new MapperConfiguration(mc => mc.CreateMap<Administrator, AdministratorDto>());
+                UserView view = new UserView();
 
-                var maper = new Mapper(config);
+                Administrator user = await _data.Administrator.FirstOrDefaultAsync(x => x.id == id);
 
-                var userdto = maper.Map<Administrator, AdministratorDto>(user);
 
-                return userdto;
-            
+                view.Administrator = _mapper.Map<Administrator, AdministratorDto>(user);
+
+                view.Listrole = await (from userrole in _data.UserRoles.Where(x => x.UserId == user.id)
+                                       join
+                                       role in _data.Role on userrole.RoleId equals role.RoleId
+                                       select role).ToListAsync();
+
+
+
+                return view;
+
             }
             catch (Exception)
             {
 
                 throw;
             }
-           
+
         }
+       
 
 
         public async Task<PageintoinAdmin> GetAdministrator(int page, int pageSize) {

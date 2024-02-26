@@ -75,7 +75,7 @@ namespace passport_aca.Controllers
 
         [HttpGet]
         [Route("GetAdministrator/{id}")]
-        public async Task<ActionResult<AdministratorDto>> GetUser(int id)
+        public async Task<ActionResult<UserView>> GetUser(int id)
         {
             var user = await _data.GetAdministrator(id);
 
