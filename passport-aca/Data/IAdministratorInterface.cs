@@ -10,8 +10,8 @@ namespace passport_aca.Data
     public interface IAdministratorInterface
     {
         Task<UserWithOnlyRoleNum> login(Login user);
-
-        Task<MassageInfo> AddAdministrator(Administrator user);
+        Task<List<RoleDto>> GetAllRoles();
+        Task<MassageInfo> AddAdministrator(UserWithOnlyRoleNum user);
 
         Task<List<Administrator>> GetAllAdministrator();
 

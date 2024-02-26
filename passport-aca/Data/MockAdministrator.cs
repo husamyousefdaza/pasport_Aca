@@ -136,7 +136,43 @@ namespace passport_aca.Data
         }
 
 
+        public async Task<List<RoleDto>> GetAllRoles()
+        {
+            try
+            {
+                List<Role> listOfRole = await _data.Role.OrderBy(x => x.RoleId).Where(x => x.state == true).ToListAsync();
 
+                List<RoleDto> list = new List<RoleDto>();
+
+                list.Add(new RoleDto
+                {
+                    Name = "الكل",
+                    RoleId = 100,
+                    state = true
+                });
+
+                foreach (var item in listOfRole)
+                {
+
+                    list.Add(new RoleDto
+                    {
+                        Name = item.Name,
+                        RoleId = item.RoleId,
+                        state = true
+                    });
+
+
+                }
+                //list = _mapper.Map<List<Role>, List<RoleDto>>(listOfRole);
+
+                return list;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
 
         public async Task<AdministratorDto> GetAdministrator(int id)
         {
@@ -280,9 +316,6 @@ namespace passport_aca.Data
             }
         }
 
-        public Task<MassageInfo> AddAdministrator(Administrator user)
-        {
-            throw new NotImplementedException();
-        }
+      
     }
 }

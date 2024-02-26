@@ -56,6 +56,22 @@ namespace passport_aca.Controllers
         }
 
 
+        [HttpGet]
+        [Route("GetAllRoles")]
+        public async Task<ActionResult<List<RoleDto>>> GetAllRoles()
+        {
+            var roles = await _data.GetAllRoles();
+            if (roles != null)
+            {
+                return Ok(roles);
+            }
+            else
+            {
+                return NotFound(new Result() { message = "لا يوجد صلاحيات مخزنة مسبقاً", statusCode = 404 });
+
+            }
+        }
+
 
         [HttpGet]
         [Route("GetAdministrator/{id}")]
@@ -132,7 +148,7 @@ namespace passport_aca.Controllers
        
 
             //var c = BCrypt.Net.BCrypt.EnhancedHashPassword(user.Password);
-            MassageInfo massages = await _data.AddAdministrator(user.Administrator);
+            MassageInfo massages = await _data.AddAdministrator(user);
             if (massages.statuscode==201)
             {
 
