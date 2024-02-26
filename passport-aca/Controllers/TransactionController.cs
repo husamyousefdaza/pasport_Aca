@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using passport_aca.Data;
 using passport_aca.Model;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -31,9 +32,9 @@ namespace passport_aca.Controllers
         [HttpGet]
         [Route("Search")]
 
-        public async Task<ActionResult<SearchModel>> Search(string search)
+        public async Task<ActionResult<List<TransactionViewModel>>> Search(DateTime? date_from,DateTime? date_to, int? trnsacton_number, string? passport_status, string? classification, string? full_name, string? from_who, bool? picture_date, int? finacial_recipt_number, long? nationality_number, string? resevedName, bool? delivery_date)
         {
-            SearchModel transaction = await _transaction.search(search);
+           List<TransactionViewModel> transaction = await _transaction.search(date_from, date_to,trnsacton_number, passport_status,  classification, full_name,  from_who, picture_date,  finacial_recipt_number,  nationality_number,  resevedName,  delivery_date);
             return Json(transaction);
         }
         [HttpGet]

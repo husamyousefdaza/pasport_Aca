@@ -10,7 +10,7 @@ namespace passport_aca.Data
     {
         Task<MassageInfo> AddTransaction(TransactionInfo transactionInfo);
 
-        Task<SearchModel> search(string id);
+        Task<List<TransactionViewModel>> search(DateTime? date_from, DateTime? date_to, int? trnsacton_number, string? passport_status, string? classification, string? full_name, string? from_who, bool? picture_date , int? finacial_recipt_number, long? nationality_number, string? resevedName, bool? delivery_date);
 
 
         Task<TransactionInfoDto> GetTransaction(int id);

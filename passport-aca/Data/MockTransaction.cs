@@ -193,107 +193,85 @@ namespace passport_aca.Data
             }
         }
 
-        public async Task<SearchModel> search(string id)
+        public async Task<List< TransactionViewModel>> search(DateTime? date_from, DateTime? date_to, int? trnsacton_number, string? passport_status, string? classification, string? full_name, string? from_who, bool? picture_date, int? finacial_recipt_number, long? nationality_number, string? resevedName, bool? delivery_date)
         {
             try
             {
-                if (id != "")
+                List<TransactionViewModel> fg = new List<TransactionViewModel>();
+
+                bool transaction_num = false;
+                bool pass_status = false;
+                bool classifi = false;
+                bool name = false;
+                bool nation_number = false;
+                bool f_who = false;
+                bool finacial_number = false;
+                bool reseved_name = false;
+                bool dev = false;
+                bool pict = false;
+                if (delivery_date == null || delivery_date == false)
                 {
-                    List<TransactionInfo> transactions = await _data.transactions.ToListAsync();
-                    List<Dto> all = new List<Dto>();
-                    foreach (var item in transactions)
+                    dev = true;
+
+                }
+                else
+                {
+                    dev = false;
+
+                }
+
+                if (picture_date == null || pict == false)
+                {
+                    pict = true;
+
+                }
+                else
+                {
+                    pict = false;
+
+                }
+
+
+                if (trnsacton_number == null) { transaction_num = true; } else { transaction_num = false; }
+                if (passport_status == null) { pass_status = true; } else { pass_status = false; }
+                if (classification == null) { classifi = true; } else { classifi = false; }
+                if (full_name == null) { full_name = " "; } 
+                if (nationality_number == null) { nation_number = true; } else { nation_number = false; }
+                if (from_who == null) { from_who = " "; }               
+                if (finacial_recipt_number == null) { finacial_number = true; } else { finacial_number = false; }
+                if (resevedName == null) { resevedName = " " ; } 
+
+
+                var sersh = await _data.transactions.Where(x => (x.create_at >= date_from && x.create_at <= date_to || dev==false || pict ==false)
+                                   && (x.transaction_number == trnsacton_number || transaction_num)
+                                   && (x.passport_status == passport_status || pass_status)
+                                   && (x.classification == classification || classifi)
+                                   && (x.full_name.Contains(full_name))
+                                   &&(x.nationality_number == nationality_number || nation_number) 
+                                   && (x.from_who.Contains(from_who))
+                                   && (x.finacial_recipt_number == finacial_recipt_number || finacial_number)
+                                   && (x.resevedName.Contains(resevedName)) 
+                                   && (x.delivery_date >= date_from && x.delivery_date <= date_to || dev == true)
+                                   && (x.picture_date >= date_from && x.delivery_date <= date_to  || pict == true)).ToListAsync();
+                                  
+                foreach (var item in sersh)
+                {
+
+                  var fgg = new TransactionViewModel
                     {
-                        all.Add(new Dto
-                        {
-                            finacial_recipt_number = item.finacial_recipt_number.ToString(),
-                            full_name = item.full_name,
-                            id = item.id,
-                            passport_number = item.passport_number,
-                            transaction_number = item.transaction_number.ToString(),
-                            UserId = item.UserId
-                        });
-                    }
+                        finacial_recipt_number =item.finacial_recipt_number ,
+                        delivery_date = item.delivery_date.ToString(),
+                        fromWho = item.from_who,
+                        full_name = item.full_name,
+                        passport_status = item.passport_status,
+                        picture_date = item.picture_date.ToString(),
+                        transaction_number = item.transaction_number,
+                        id = item.id
+                    };
+                    fg.Add(fgg);
+                }
 
-
-
-
-                    Regex s = new Regex(@"[0-9]");
-
-                    string intergers = "";
-                    string text = "";
-                    var h = id.ToCharArray();
-                    string d;
-
-                    for (int i = 0; i < h.Length; i++)
-                    {
-                        if (s.IsMatch(h[i].ToString()))
-                        {
-                            intergers = intergers + h[i];
-                        }
-                        else
-                        {
-                            text = text + h[i].ToString();
-                        }
-                    }
-
-                    if (!String.IsNullOrEmpty(intergers))
-                    {
-                        d = intergers;
-                        result.transaction_number = (List<Dto>)(from transaction in all
-                                                                where transaction.transaction_number.Contains(intergers)
-                                                                select transaction).ToList();
-
-
-                  
-
-
-
-                        result.finacial_recipt_number = (List<Dto>)(from transaction in all
-                                                                where transaction.finacial_recipt_number.Contains(intergers)
-                                                                select transaction).ToList();
-
-                       }
-
-                        if (!String.IsNullOrEmpty(text))
-                        {
-                            result.full_name = (List<Dto>)(from transaction in all
-                                                           where transaction.full_name.Contains(text)
-                                                           select transaction).ToList();
-
-                            result.passport_number = (List<Dto>)(from transaction in all
-                                                                 where transaction.passport_number.Contains(text)
-                                                                 select transaction).ToList();
-
-
-                        }
-
-                     
-
-                        if (result.passport_number.Count > 0 || result.transaction_number.Count > 0 || result.full_name.Count > 0 || result.finacial_recipt_number.Count > 0)
-                        {
-
-                            result.Massage = "تم العثور علي نتائج لبحثك";
-                            result.statuscode = 200;
-                            return result;
-
-                        }
-                        else
-                        {
-                            result.Massage = "لم يتم العثور علي نتائج لبحثك";
-                            result.statuscode = 404;
-                            return result;
-                        }
-                    }
-                    else
-                    {
-
-                        result.Massage = "الرجاء ادخال بيان للبحث عنه ";
-                        result.statuscode = 204;
-                        return result;
-                    }
-                   
-                
-              
+                return fg;
             }
 
 
