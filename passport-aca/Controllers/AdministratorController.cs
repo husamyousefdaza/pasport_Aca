@@ -96,7 +96,7 @@ namespace passport_aca.Controllers
 
             user.Administrator.Password = BCrypt.Net.BCrypt.HashPassword(user.Administrator.Password);
             MassageInfo massages=  await _data.UpdateAdministrator(user);
-            if (massages.statuscode == 200)
+            if (massages.statuscode == 202)
                 return Ok(massages);
             else if(massages.statuscode == 300) {
                 return StatusCode(304, massages);
