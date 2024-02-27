@@ -11,7 +11,7 @@ namespace passport_aca.Data
     {
         Task<UserWithOnlyRoleNum> login(Login user);
         Task<List<RoleDto>> GetAllRoles();
-        Task<MassageInfo> AddAdministrator(UserWithOnlyRoleNum user);
+        Task<MassageInfo> AddAdministrator(UserAddORUpdate user);
 
         Task<List<Administrator>> GetAllAdministrator();
   
