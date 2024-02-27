@@ -14,7 +14,8 @@ namespace passport_aca.Model
         public bool state { get; set; }
 
         public string code { get; set; }
-        public List<UserRoles> userRoles { get; set; }
+
+      //  public List<UserRoles> userRoles { get; set; }
 
 
     }

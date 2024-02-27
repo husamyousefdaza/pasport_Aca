@@ -35,11 +35,22 @@
                                             <input type="date" v-model="transactionInfo.birthdate" id="birthdate" class="px-2 focus:outline-none focus:shadow hover:shadow-sm rounded-md w-full h-8 text-sm border-gray-300">
                                         </div>
 
+
+                                        <label
+                v-if="national_valid"
+                for="national"
+                class="font-medium text-red-700 col-span-6"
+              >
+                يجب أن يتكون الرقم الوطني من 12 خانة
+              </label>
+
                                         <div class="col-span-3 flex items-center justify-between">
                                             <label for="nationality_number" class=" text-sm font-medium text-gray-700 w-36">
                                                 الرقم الوطني
                                             </label>
-                                            <input type="number" v-model="transactionInfo.nationality_number" id="nationality_number" class="px-2 focus:outline-none focus:shadow hover:shadow-sm rounded-md w-full h-8 text-sm border-gray-300">
+
+                
+                                            <input  type="number" onkeypress="return event.charCode >= 48 && event.charCode <= 57"  v-model="nationality_number" id="nationality_number" class="px-2 focus:outline-none focus:shadow hover:shadow-sm rounded-md w-full h-8 text-sm border-gray-300">
                                         </div>
 
                                         <div class="col-span-3 flex items-center justify-between">
@@ -433,27 +444,44 @@ export default {
         pageTitle:'',
         submitText:'',
 
+        national_valid: false,
+        nationality_number:"",
+
         transactionInfo:{
 
             full_name:'',
             passport_number:'',
             birthdate:"",
 
-            delivery_date:"0000-00-00",
+            delivery_date:"0001-01-01",
             finacial_recipt_number:'',
             transaction_number:'',
-            classification:"",
+            classification:"أول مرة",
             date_of_photography:"",
             from_who:"",
             resevedName:"",
-            passport_status:'',
+            passport_status:'تحت الإجراء',
             reason_of_stopping :"",
            
             nationality_number:'',
 
+            
+
             UserId:Number(sessionStorage.getItem("user_id") ),
         }
     };
+  },
+
+  watch:{
+
+    nationality_number : function() {
+      if (this.nationality_number.length != 12 && this.nationality_number.length != 0) {
+        this.national_valid = true;
+      } else {
+        this.national_valid = false;
+      }
+    },
+
   },
   methods: {
     checkAddOrUpdate(){

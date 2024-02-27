@@ -19,7 +19,7 @@ namespace passport_aca.Data
 
         Task<MassageInfo> DeleteAdministrator(int id);
 
-        Task<UserView> GetAdministrator(int id)
+        Task<UserView> GetAdministrator(int id);
         Task<List<AdministratorDto>> GetAllAdministrators();
         Task<PageintoinAdmin> GetAdministrator(int page, int pageSize);
 
