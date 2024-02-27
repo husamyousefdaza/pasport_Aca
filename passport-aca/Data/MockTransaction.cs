@@ -421,7 +421,7 @@ namespace passport_aca.Data
                     TotalReport = (from total in transactions
                                    where total.UserId == user.id
                                    select total).Count(),
-                    UserNameReport = user.name
+                 
 
                 });
 
