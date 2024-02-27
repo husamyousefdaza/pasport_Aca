@@ -202,14 +202,14 @@ namespace passport_aca.Data
                 bool transaction_num = false;
                 bool pass_status = false;
                 bool classifi = false;
-                bool name = false;
+                
                 bool nation_number = false;
-                bool f_who = false;
+                
                 bool finacial_number = false;
-                bool reseved_name = false;
+                
                 bool dev = false;
                 bool pict = false;
-                if (delivery_date == null || delivery_date == false)
+                if ( delivery_date == false)
                 {
                     dev = true;
 
@@ -220,7 +220,7 @@ namespace passport_aca.Data
 
                 }
 
-                if (picture_date == null || pict == false)
+                if ( pict == false)
                 {
                     pict = true;
 
@@ -235,24 +235,24 @@ namespace passport_aca.Data
                 if (trnsacton_number == null) { transaction_num = true; } else { transaction_num = false; }
                 if (passport_status == null) { pass_status = true; } else { pass_status = false; }
                 if (classification == null) { classifi = true; } else { classifi = false; }
-                if (full_name == null) { full_name = " "; } 
-                if (nationality_number == null) { nation_number = true; } else { nation_number = false; }
-                if (from_who == null) { from_who = " "; }               
-                if (finacial_recipt_number == null) { finacial_number = true; } else { finacial_number = false; }
-                if (resevedName == null) { resevedName = " " ; } 
+                if (full_name == null) { full_name = "  "; } 
+                if (nationality_number == 0) { nation_number = true; } else { nation_number = false; }
+                if (from_who == null) { from_who = "  "; }               
+                if (finacial_recipt_number == 0) { finacial_number = true; } else { finacial_number = false; }
+                if (resevedName == null) { resevedName = "  " ; } 
 
 
-                var sersh = await _data.transactions.Where(x => (x.create_at >= date_from && x.create_at <= date_to || dev==false || pict ==false)
-                                   && (x.transaction_number == trnsacton_number || transaction_num)
-                                   && (x.passport_status == passport_status || pass_status)
-                                   && (x.classification == classification || classifi)
-                                   && (x.full_name.Contains(full_name))
-                                   &&(x.nationality_number == nationality_number || nation_number) 
-                                   && (x.from_who.Contains(from_who))
-                                   && (x.finacial_recipt_number == finacial_recipt_number || finacial_number)
-                                   && (x.resevedName.Contains(resevedName)) 
-                                   && (x.delivery_date >= date_from && x.delivery_date <= date_to || dev == true)
-                                   && (x.picture_date >= date_from && x.delivery_date <= date_to  || pict == true)).ToListAsync();
+                var sersh = await _data.transactions.Where(x => ((x.create_at >= date_from && x.create_at <= date_to) ||( dev == true || pict == true))
+                                   && (x.transaction_number == trnsacton_number || transaction_num==true)
+                                   && (x.passport_status == passport_status || pass_status== true)
+                                   && (x.classification == classification || classifi== true)
+                                   && x.full_name.Contains(full_name)
+                                   &&(x.nationality_number == nationality_number || nation_number== true) 
+                                   && x.from_who.Contains(from_who) 
+                                   && (x.finacial_recipt_number == finacial_recipt_number || finacial_number == true)
+                                   && x.resevedName.Contains(resevedName) 
+                                   && ((x.delivery_date >= date_from && x.delivery_date <= date_to) || dev == false)
+                                   && ((x.picture_date >= date_from && x.delivery_date <= date_to ) || pict == false)).ToListAsync();
                                   
                 foreach (var item in sersh)
                 {

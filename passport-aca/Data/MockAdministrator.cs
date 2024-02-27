@@ -37,6 +37,16 @@ namespace passport_aca.Data
                     await _data.Administrator.AddAsync(user.Administrator);
                     await _data.SaveChangesAsync();
 
+                    foreach (var item in user.Listrole)
+                    {
+                        await _data.UserRoles.AddAsync(new UserRoles
+                        {
+                            RoleId = Convert.ToInt32( item ),
+                            UserId = user.Administrator.id
+                        });
+                        await _data.SaveChangesAsync();
+                    }
+
                     massageInfo.Massage = "تمت عملية الأضافة ";
                     massageInfo.statuscode = 201;
                     return massageInfo;
@@ -271,7 +281,7 @@ namespace passport_aca.Data
 
                         view.Administrator = user;
 
-                        view.Listrole = await (from userrole in _data.UserRoles.Where(x => x.UserId == user.id)
+                        view.Listrole =  await (from userrole in _data.UserRoles.Where(x => x.UserId == user.id)
                                               join
                                               role in _data.Role on userrole.RoleId equals role.RoleId
                                                select role.code).ToListAsync();
