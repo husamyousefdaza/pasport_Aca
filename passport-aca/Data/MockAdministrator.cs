@@ -14,12 +14,11 @@ namespace passport_aca.Data
     public class MockAdministrator : IAdministratorInterface
     {
 
-        public MockAdministrator(AppDbCont data, IMapper mapper)
+        public MockAdministrator(AppDbCont data)
         {
             _data = data;
 
-            _mapper = mapper;
-
+     
         }
 
         private AppDbCont _data { get; }
@@ -186,10 +185,14 @@ namespace passport_aca.Data
             {
                 UserView view = new UserView();
 
+                var config = new MapperConfiguration(mc => mc.CreateMap<Administrator, AdministratorDto>());
+
+                var maper = new Mapper(config);
+
                 Administrator user = await _data.Administrator.FirstOrDefaultAsync(x => x.id == id);
 
 
-                view.Administrator = _mapper.Map<Administrator, AdministratorDto>(user);
+                view.Administrator = maper.Map<Administrator, AdministratorDto>(user);
 
                 view.Listrole = await (from userrole in _data.UserRoles.Where(x => x.UserId == user.id)
                                        join
