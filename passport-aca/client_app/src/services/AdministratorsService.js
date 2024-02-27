@@ -8,7 +8,7 @@ export default {
 
 
     GetAllRoles() {
-        return axios.get(`/api/Role/GetAll`);
+        return axios.get(`/Administrator/GetAllRoles`);
         //   return axios.get(`http://mail:82/api/Role/GetAll`);
     },
 

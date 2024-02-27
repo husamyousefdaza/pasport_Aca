@@ -24,7 +24,7 @@
                         <div class="divide-y divide-gray-200 min-h-80 bg-white">
                             <router-link :to="{ name: 'AdministratorsFormEdit', params: { administrato: administrato.id },}" v-for="administrato in Administrators" :key="administrato.id" class="w-full bg-white hover:shadow flex items-center">
                                 <div class="w-4/12 py-4 pr-2 font-semibold text-black">
-                                    {{ administrato.name }}
+                                    {{ administrato.username }}
                                 </div>
                            
                             </router-link>

@@ -322,6 +322,11 @@ export default {
 
   data() {
     return {
+
+
+      roleNameselected: "اختر الصلاحيات",
+      roleIdselected: "",
+      
         loading: false,
         deleteAlert: false,
         screenFreeze: false,
@@ -333,20 +338,21 @@ export default {
 
         pirms: [],
       roles1: [],
+
         AddEditMessage:'',
         pageTitle:'',
         submitText:'',
 
         roleselect:false,
 
-        roleNameselected:"",
+       
         roles:[],
 
         Administrators:{
-            name:'',
+          
             username:'',
             password:'',
-            validity:'',
+            
         }
     };
   },
@@ -363,6 +369,96 @@ export default {
         });
     },
 
+    
+    selectrole(id, name,index) {
+
+this.index=index;
+this.roleNameselected = name;
+this.roleIdselected = id;
+var  role_is_exist=false;
+
+
+if(id==100){
+
+  
+  for(var d=0;d<this.roles.length;d++){
+
+    if(this.roles[d].roleId!=100){
+
+      for (var c = 0; c < this.pirms.length; c++) {
+
+      if(this.pirms[c].name==this.roles[d].name){
+
+        role_is_exist=true;
+        break;
+
+
+         }
+
+     
+        }
+
+        if(!role_is_exist){
+        this.pirms.push(this.roles[d]);
+        
+        }
+    }
+
+  }
+ 
+}
+
+
+else{
+  
+    
+
+    for (var i = 0; i < this.pirms.length; i++) {
+
+    if(this.pirms[i].name==name){
+
+      role_is_exist=true;
+        break;
+
+         
+    }
+  }
+
+
+    if(!role_is_exist){
+
+     
+    this.pirms.push({
+  roleId: id,
+  name: name,
+
+});
+
+    }
+  
+
+
+
+//this.roles.splice(index, 1);
+
+  }
+  this.roleNameselected = "اختر الصلاحيات";
+},
+
+remove_role(name, id) {
+      const index = this.pirms.findIndex((element) => {
+        if (element.roleId === id) {
+          return true;
+        }
+      });
+      this.pirms.splice(index, 1);
+
+      // this.roles.push({
+      //   roleId: id,
+      //   name: name,
+      // });
+    },
+
 
     checkAddOrUpdate(){
         this.screenFreeze = true;
@@ -376,10 +472,17 @@ export default {
                     this.screenFreeze = false;
                     this.loading = false;
                     var respons = res.data;
-                    this.Administrators.name = respons.name;
-                    this.Administrators.username = respons.username;
-                    this.Administrators.password = respons.password;
-                    this.Administrators.validity = respons.validity;
+                   
+                    this.Administrators.username = respons.Administrator.username;
+                    this.Administrators.password = respons.Administrator.password;
+                   
+                    if (respons.Administrator.state) {
+            this.state1 = respons.Administrator.state;
+          } else {
+            this.state1 = "";
+          }
+
+          this.pirms = respons.listrole;
                     
                 })
                 .catch((err) => {
@@ -403,17 +506,30 @@ export default {
     submit() {
         this.screenFreeze = true;
         this.loading = true;
-        var administratoInfoToSend = {
+
+        for (var i = 0; i < this.pirms.length; i++) {
+          this.roles1.push(String(this.pirms[i].roleId));
+        }
+
+
+        var user = {
+          
+          Administrator : {
             
             username : this.Administrators.username,
             password : this.Administrators.password,
             state: Boolean(this.state1),
-        }
+        },
+
+        Listrole: this.roles1,
+
+     //  currentUser : Number(sessionStorage.getItem("user_id")),
+      }
 
         if(this.$route.params.administrato){
-            administratoInfoToSend.id = this.$route.params.administrato
+            user.Administrator.id = this.$route.params.administrato
             this.$http.AdministratorsService
-                .UpdateAdministrator(administratoInfoToSend)
+                .UpdateAdministrator(user)
                 .then((res) => {
                     setTimeout(() => {
                         this.loading = false;
@@ -438,7 +554,7 @@ export default {
         }
         else{
             this.$http.AdministratorsService
-                .AddAdministrator(administratoInfoToSend)
+                .AddAdministrator(user)
                 .then((res) => {
                     setTimeout(() => {
                         this.loading = false;
