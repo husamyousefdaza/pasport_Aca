@@ -110,7 +110,7 @@
                       <label for="mail_id" class="block text-base font-semibold text-gray-800">
                         رقم المعاملة
                       </label>
-                      <input type="number" min="1" max="5000" id="mail_id" class="
+                      <input  v-model="transaction_number" type="number" min="1" max="5000" id="mail_id" class="
                             block
                             mt-2
                             h-10
@@ -130,7 +130,7 @@
                       </label>
 
                       <div class="relative">
-                        <button  id="measure" class="
+                        <button   @click="measureselect = !measureselect" id="measure" class="
                               text-right
                               block
                               mt-2
@@ -145,10 +145,10 @@
                               focus:outline-none focus:border-gray-300
                               p-2
                             ">
-                         
+                            {{ measureNameSelected  }}
                         </button>
 
-                        <div  v-if="dd"   class="
+                        <div  v-if="measureselect"   class="
                               border
                               text-sm
                               bg-white
@@ -162,13 +162,17 @@
                               overflow-y-scroll
                               rounded-b-md
                             ">
-                          <button class="
+                          <button  class="
                                 block
                                 focus:outline-none
                                 w-full
                                 my-1
                                 text-right
-                              " >
+                              "    
+                                @click="
+                               measureNameSelected = '';
+                            "
+                          >
                             الكل
                           </button>
 
@@ -178,8 +182,18 @@
                                 w-full
                                 my-1
                                 text-right
-                              ">
+                              "
+                              
+                              @click="
+                              measureNameSelected = measure.measuresName;
                            
+                              
+                            "
+                              v-for="measure in T_type"
+                            :key="measure.id"
+
+                            >
+                            {{ measure.measuresName }}
                           </button>
                         </div>
                       </div>
@@ -190,8 +204,8 @@
                       <label for="classification" class="block text-base font-semibold text-gray-800">
                         التصنيف
                       </label>
-
-                      <div class="relative">
+                                    
+                      <div  @click="classselect = !classselect" class="relative">
                         <button  id="classification" class="
                               text-right
                               block
@@ -207,10 +221,10 @@
                               focus:outline-none focus:border-gray-300
                               p-2
                             ">
-                       
+                            {{ classNameSelected }}
                         </button>
 
-                        <div v-if="dd"  class="
+                        <div v-if="classselect"  class="
                               border
                               text-sm
                               bg-white
@@ -230,7 +244,9 @@
                                 w-full
                                 my-1
                                 text-right
-                              " >
+                              "        @click="
+                               classNameSelected = '';
+                            ">
                             الكل
                           </button>
 
@@ -240,8 +256,16 @@
                                 w-full
                                 my-1
                                 text-right
-                              " >
-                           
+                              "   
+                                   @click="
+                              classNameSelected = class1.className;
+                              
+                            "
+                              v-for="class1 in class2"
+                            :key="class1.id"
+
+                            >
+                            {{ class1.className }}
                           </button>
                         </div>
                       </div>
@@ -251,7 +275,7 @@
                       <label for="summary" class="block text-base font-semibold text-gray-800">
                        إسم صاحب الجواز
                       </label>
-                      <input type="text"  id="summary" class="
+                      <input v-model="pass_name" type="text"  id="summary" class="
                             block
                             mt-2
                             w-full
@@ -270,7 +294,7 @@
                       <label for="summary" class="block text-base font-semibold text-gray-800">
                       من طرف من
                       </label>
-                      <input type="text"  id="summary" class="
+                      <input v-model="from_who" type="text"  id="summary" class="
                             block
                             mt-2
                             w-full
@@ -375,7 +399,7 @@
                                             <label for="date" class=" block text-base font-semibold text-gray-800">
                                                 تاريخ التصوير
                                             </label>
-                                            <input type="date"  id="date" class="     block
+                                            <input v-model="pic_date" type="checkbox"  id="pic_date" class="     block
                             mt-2
                             h-10
                             w-full
@@ -389,11 +413,11 @@
 
 
                     <div class="sm:col-span-2">
-                      <label for="general_incoming_number" class="block text-base font-semibold text-gray-800">
+                      <label for="finacial_recipt_number" class="block text-base font-semibold text-gray-800">
                         رقم الإيصال المالي
                       </label>
-                      <input  type="number" min="1" max="5000"
-                        id="general_incoming_number" class="
+                      <input v-model="finacial_recipt_number2" type="number" min="1" max="5000"
+                        id="finacial_recipt_number2" class="
                             block
                             mt-2
                             h-10
@@ -414,7 +438,7 @@
                      الرقم الوطني
                         </label>
                         <input
-                        
+                        v-model="national_number"
                           type="number"
                           min="1"
                           id="s-number"
@@ -427,7 +451,7 @@
                       <label for="summary" class="block text-base font-semibold text-gray-800">
                        إسم المستلم
                       </label>
-                      <input type="text"  id="summary" class="
+                      <input v-model="rec_name" type="text"  id="summary" class="
                             block
                             mt-2
                             w-full
@@ -445,7 +469,7 @@
                                             <label for="date2" class=" block text-base font-semibold text-gray-800">
                                                 تاريخ الإستلام
                                             </label>
-                                            <input type="date" id="date2" class="     block
+                                            <input v-model="rec_date" type="checkbox" id="date2" class="     block
                             mt-2
                             h-10
                             w-full
@@ -467,7 +491,7 @@
 
            
                         <button 
-                        @click="page_num=1 ;filter = !filter"
+                        @click="Search() ;filter = !filter"
                         
                         id="search_button" class="
                         px-8
@@ -618,7 +642,7 @@
                             <div class="divide-y divide-gray-200 min-h-72 bg-white">
                                 <router-link :to="{ name: 'TransactionsFormEdit', params: { transaction: transaction.id },}" v-for="transaction in Transactions" :key="transaction.id" class="w-full bg-white hover:shadow flex items-center">
                                     <div class="w-1/12  font-semibold text-black text-center">
-                                        {{ transaction.id }}
+                                        {{ transaction.transaction_number }}
                                     </div>
                                     <div class="w-4/12 text-center">
                                         {{ transaction.full_name }}
@@ -635,9 +659,13 @@
                                     </div>
                                 </router-link>
                             </div>
-
+<!-- 
                             <div class="bg-white px-2 py-3 ">
                                 <pagination dir="rtl" v-model="page" :per-page="pagesize" :records="totalOfTransaction" @paginate="getTransaction"/>
+                            </div> -->
+
+                            <div class="bg-white px-2 py-3 ">
+                                <pagination dir="rtl" v-model="page" :per-page="pagesize" :records="totalOfTransaction" @paginate="Search"/>
                             </div>
                         </div>
                     </main>
@@ -671,12 +699,12 @@ var day = date.getDate();
 if (month < 10) month = "0" + month;
 if (day < 10) day = "0" + day;
 
-this.date_from = "2024" + "-" + month + "-" + day;
+this.date_from = "2024" + "-" + "01" + "-" + "01";
 this.date_to = date.getFullYear() + "-" + month + "-" + day;
 
 
 
-      this.getTransaction();
+      this.Search();
 
      //  this.GetLastFiveTransactions();
   },
@@ -687,6 +715,37 @@ this.date_to = date.getFullYear() + "-" + month + "-" + day;
   },
   data() {
     return {
+
+      
+      finacial_recipt_number2:"",
+
+      national_number:"",
+
+      rec_date:false,
+
+      rec_name:"",
+
+      measureNameSelected:"",
+      
+      measureselect:false,
+
+
+      classNameSelected  :"",
+      
+      classselect:false,
+
+      pass_name:"",
+
+      pic_date:false,
+
+      from_who:"",
+
+
+      T_type:[{id:1,measuresName:"تحت الإجراء"},{id:2,measuresName:"جاهزة"},{id:3,measuresName:"موقوفة"},{id:4,measuresName:"تم تسليمها"}],
+
+      class2 :[{id:1,className:"أول مرة"},{id:2,className:"تجديد"},{id:3,className:"بدل تالف"},{id:4,className:"بدل فاقد"},{id:5,className:"منتهي الصفحات"}],
+
+      transaction_number:"",
 
       date_from:"",
 
@@ -722,6 +781,39 @@ this.date_to = date.getFullYear() + "-" + month + "-" + day;
                 dateTo: this.date_to,
               },
             });
+    },
+
+
+    Search(){
+
+      this.Transactions = [],
+                    this.totalOfTransaction = 0,
+
+      this.screenFreeze = true;
+        this.loading = true;
+        this.$http.TransactionsService
+            .Search(this.date_from,this.date_to,Number(this.transaction_number),this.measureNameSelected,this.classNameSelected,this.pass_name,this.from_who,this.pic_date,Number(this.finacial_recipt_number2),Number(this.national_number),this.rec_name,this.rec_date)
+            .then((res) => {
+                setTimeout(() => {
+                    this.screenFreeze = false;
+                    this.loading = false;
+                    this.Transactions = res.data.transactionList;
+                    this.totalOfTransaction = res.data.totalOfTransaction
+                }, 100);
+                
+            })
+            .catch((err) => {
+                setTimeout(() => {
+                    this.screenFreeze = false;
+                    this.loading = false;
+                    console.log(err);
+                }, 100);
+                
+                
+            });
+
+
+
     },
     getTransaction() {
         this.screenFreeze = true;
