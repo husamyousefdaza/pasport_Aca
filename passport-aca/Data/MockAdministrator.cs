@@ -25,7 +25,7 @@ namespace passport_aca.Data
         private IMapper _mapper { get; }
      
         
-        public async Task<MassageInfo> AddAdministrator(UserWithOnlyRoleNum user)
+        public async Task<MassageInfo> AddAdministrator(UserAddORUpdate user)
         {
             MassageInfo massageInfo = new MassageInfo();
             try
@@ -41,7 +41,7 @@ namespace passport_aca.Data
                     {
                         await _data.UserRoles.AddAsync(new UserRoles
                         {
-                            RoleId = Convert.ToInt32( item ),
+                            RoleId =  item ,
                             UserId = user.Administrator.id
                         });
                         await _data.SaveChangesAsync();

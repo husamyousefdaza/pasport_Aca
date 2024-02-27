@@ -139,7 +139,7 @@ namespace passport_aca.Controllers
         [HttpPost]
         [Route("AddAdministrator")]
 
-        public async Task<ActionResult<MassageInfo>> Adduser([FromBody] UserWithOnlyRoleNum user) {
+        public async Task<ActionResult<MassageInfo>> Adduser([FromBody] UserAddORUpdate user) {
           //  var l = Securety.hash(user.Password);
             //user.Password = l;
 
