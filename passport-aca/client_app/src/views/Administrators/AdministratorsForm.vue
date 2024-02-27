@@ -473,11 +473,11 @@ remove_role(name, id) {
                     this.loading = false;
                     var respons = res.data;
                    
-                    this.Administrators.username = respons.Administrator.username;
-                    this.Administrators.password = respons.Administrator.password;
+                    this.Administrators.username = respons.administrator.username;
+                    this.Administrators.password = respons.administrator.password;
                    
-                    if (respons.Administrator.state) {
-            this.state1 = respons.Administrator.state;
+                    if (respons.administrator.state) {
+            this.state1 = respons.administrator.state;
           } else {
             this.state1 = "";
           }

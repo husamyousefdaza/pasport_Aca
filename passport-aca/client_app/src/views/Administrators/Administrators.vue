@@ -21,17 +21,17 @@
                         
                         </div>
 
-                        <div class="divide-y divide-gray-200 min-h-80 bg-white">
+                        <div class="divide-y divide-gray-200 min-h-80 ">
                             <router-link :to="{ name: 'AdministratorsFormEdit', params: { administrato: administrato.id },}" v-for="administrato in Administrators" :key="administrato.id" class="w-full bg-white hover:shadow flex items-center">
-                                <div class="w-4/12 py-4 pr-2 font-semibold text-black">
+                                <div class="w-full py-4 pr-2 font-semibold text-black">
                                     {{ administrato.username }}
                                 </div>
                            
                             </router-link>
                         </div>
 
-                        <div class="bg-white px-2 py-3 ">
-                            <pagination dir="rtl" v-model="page" :per-page="pagesize" :records="totalOfTransaction" @paginate="getAdministrators"/>
+                        <div class="bg-white flex  w-full">
+                            <pagination class="flex" dir="rtl" v-model="page" :per-page="pagesize" :records="totalOfTransaction" @paginate="getAdministrators"/>
                         </div>
                     </div>
                 </main>

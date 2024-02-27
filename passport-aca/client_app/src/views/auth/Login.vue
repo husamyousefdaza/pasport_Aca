@@ -247,7 +247,7 @@ export default {
 
                     this.$authenticatedUser.name = this.user.administrator.name
                     this.$authenticatedUser.userName = this.user.administrator.username
-                    this.$authenticatedUser.validity = this.user.administrator.validity
+                   
 
                 }, 100);
                 
