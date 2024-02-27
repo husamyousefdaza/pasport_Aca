@@ -167,7 +167,7 @@ namespace passport_aca.Data
 
 
                 }
-                //list = _mapper.Map<List<Role>, List<RoleDto>>(listOfRole);
+                list = _mapper.Map<List<Role>, List<RoleDto>>(listOfRole);
 
                 return list;
             }
