@@ -91,10 +91,10 @@ namespace passport_aca.Controllers
         }
         [HttpPut]
         [Route("UpdateAdministrator")]
-        public async Task<ActionResult<MassageInfo>> UpdateUser([FromBody]Administrator user)
+        public async Task<ActionResult<MassageInfo>> UpdateUser([FromBody] UserAddORUpdate user)
     {
 
-            user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
+            user.Administrator.Password = BCrypt.Net.BCrypt.HashPassword(user.Administrator.Password);
             MassageInfo massages=  await _data.UpdateAdministrator(user);
             if (massages.statuscode == 200)
                 return Ok(massages);

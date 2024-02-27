@@ -14,8 +14,8 @@ namespace passport_aca.Data
         Task<MassageInfo> AddAdministrator(UserWithOnlyRoleNum user);
 
         Task<List<Administrator>> GetAllAdministrator();
-
-        Task<MassageInfo> UpdateAdministrator(Administrator user);
+  
+        Task<MassageInfo> UpdateAdministrator(UserAddORUpdate user);
 
         Task<MassageInfo> DeleteAdministrator(int id);
 

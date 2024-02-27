@@ -17,9 +17,7 @@ namespace Passpport_Raqaba.Model
         public string Username { get; set; }
         [Required]
         public string Password { get; set; }
-        [Required]
-        public string name { get; set; }
-
+      
         public bool state { get; set; }
 
         public List<TransactionInfo> transactions { get; set; }

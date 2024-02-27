@@ -230,7 +230,7 @@ namespace passport_aca.Data
                 foreach (var item in d)
                 {
                     pageing.listofUser.Add(new AdministratorDto()
-                    { id = item.id, name = item.name, Password = item.Password, state = item.state, Username = item.Username 
+                    { id = item.id, Password = item.Password, state = item.state, Username = item.Username 
 
                     });
 
@@ -297,34 +297,70 @@ namespace passport_aca.Data
             }
         }
 
-        public async Task<MassageInfo> UpdateAdministrator(Administrator user)
+        public async Task<MassageInfo> UpdateAdministrator(UserAddORUpdate user)
         {
 
             MassageInfo massageInfo = new MassageInfo();
             try
             {
-                Administrator UpdateUser= await _data.Administrator.FindAsync(user.id);
-            
+                UserRoles role = new UserRoles();
 
-                if (UpdateUser != null) {
-                   
-                    UpdateUser.name     = user.name;
-                    UpdateUser.Password = user.Password;
-                    UpdateUser.Username = user.Username;
-                    _data.Administrator.Update(UpdateUser);
+                UserAddORUpdate view = new UserAddORUpdate();
+
+                view.Administrator = await _data.Administrator.FindAsync(user.Administrator.id);
+
+
+                if (view.Administrator != null)
+                {
+
+                    view.Administrator.Username = user.Administrator.Username;
+                    if (view.Administrator.Password != user.Administrator.Password)
+                    {
+                        view.Administrator.Password = BCrypt.Net.BCrypt.HashPassword(user.Administrator.Password);
+                    }
+
+                    view.Administrator.state = user.Administrator.state;
+                    _data.Administrator.Update(view.Administrator);
                     await _data.SaveChangesAsync();
-                    massageInfo.Massage = "تمت عملية التحديث ";
-                    massageInfo.statuscode = 200; 
+
+
+                    List<UserRoles> Listrol = await _data.UserRoles.Where(x => x.UserId == user.Administrator.id).ToListAsync();
+
+                    foreach (var item in Listrol)
+                    {
+                        _data.UserRoles.Remove(item);
+                        await _data.SaveChangesAsync();
+                    }
+
+
+                    if (user.Listrole.Count > 0)
+                    {
+                        foreach (var item in user.Listrole)
+                        {
+
+                            await _data.UserRoles.AddAsync(new UserRoles
+                            {
+                                RoleId = item,
+                                UserId = user.Administrator.id
+                            });
+                            await _data.SaveChangesAsync();
+                        }
+                     
+
+                    }
+                   
+                    massageInfo.Massage = "تمت عملية التعديل ";
+                    massageInfo.statuscode = 202;
                     return massageInfo;
 
                 }
                 else
                 {
-                    massageInfo.Massage = "لم تتم عملية التحديث ";
-                    massageInfo.statuscode = 304;
+                    massageInfo.Massage = "لم تتم عملية التعديل هذا المستخدم غير موجود ";
+                    massageInfo.statuscode = 404;
                     return massageInfo;
+
                 }
-                
             }
             catch (Exception)
             {
