@@ -202,11 +202,11 @@ namespace passport_aca.Data
                 bool transaction_num = false;
                 bool pass_status = false;
                 bool classifi = false;
-                
+                bool f_name = false; 
                 bool nation_number = false;
-                
+                bool f_who = false;
                 bool finacial_number = false;
-                
+                bool r_name = false;
                 bool dev = false;
                 bool pict = false;
                 if ( delivery_date == false)
@@ -232,27 +232,26 @@ namespace passport_aca.Data
                 }
 
 
-                if (trnsacton_number == null) { transaction_num = true; } else { transaction_num = false; }
+                if (trnsacton_number == 0) { transaction_num = true; } else { transaction_num = false; }
                 if (passport_status == null) { pass_status = true; } else { pass_status = false; }
                 if (classification == null) { classifi = true; } else { classifi = false; }
-                if (full_name == null) { full_name = "  "; } 
+                if (full_name == null) { f_name = true; } else { f_name = false; }
                 if (nationality_number == 0) { nation_number = true; } else { nation_number = false; }
-                if (from_who == null) { from_who = "  "; }               
+                if (from_who == null) { f_who = true; } else { f_who = false; }               
                 if (finacial_recipt_number == 0) { finacial_number = true; } else { finacial_number = false; }
-                if (resevedName == null) { resevedName = "  " ; } 
+                if (resevedName == null) { r_name = true; } else { r_name = false; } 
 
 
-                var sersh = await _data.transactions.Where(x => ((x.create_at >= date_from && x.create_at <= date_to) ||( dev == true || pict == true))
+                var sersh = await _data.transactions.Where(x => ((x.create_at >= date_from && x.create_at <= date_to) )
                                    && (x.transaction_number == trnsacton_number || transaction_num==true)
-                                   && (x.passport_status == passport_status || pass_status== true)
-                                   && (x.classification == classification || classifi== true)
-                                   && x.full_name.Contains(full_name)
-                                   &&(x.nationality_number == nationality_number || nation_number== true) 
-                                   && x.from_who.Contains(from_who) 
-                                   && (x.finacial_recipt_number == finacial_recipt_number || finacial_number == true)
-                                   && x.resevedName.Contains(resevedName) 
-                                   && ((x.delivery_date >= date_from && x.delivery_date <= date_to) || dev == false)
-                                   && ((x.picture_date >= date_from && x.delivery_date <= date_to ) || pict == false)).ToListAsync();
+                                   && (x.passport_status == passport_status || pass_status == true)
+                                   && (x.classification == classification || classifi == true)
+                                     && ((x.full_name.Contains(full_name) && f_name == false) || f_name == true)
+                                     && (x.nationality_number == nationality_number || nation_number == true)
+                                     && ((x.from_who.Contains(from_who) && f_who == false) || f_who == true)
+                                     && (x.finacial_recipt_number == finacial_recipt_number || finacial_number == true)
+                                     && ((x.resevedName.Contains(resevedName) && r_name == false) || r_name == true)
+                                     ).ToListAsync();
                                   
                 foreach (var item in sersh)
                 {
