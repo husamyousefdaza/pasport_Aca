@@ -37,14 +37,15 @@ namespace passport_aca.Data
 
                 nationality_number = _data.transactions.FirstOrDefault(x => x.nationality_number == transactionInfo.nationality_number);
                 finacial_recipt_number = _data.transactions.FirstOrDefault(x => x.finacial_recipt_number == transactionInfo.finacial_recipt_number);
-
-                if (nationality_number == null && finacial_recipt_number == null)
+                transaction_number = _data.transactions.FirstOrDefault(x => x.transaction_number == transactionInfo.transaction_number);
+                if (nationality_number == null && finacial_recipt_number == null && transaction_number ==null)
                 {
                     transactionInfo.create_at = DateTime.Now;
 
-                    transaction_number = await _data.transactions.OrderBy(x=>x.transaction_number).Where(x=>x.create_at.Date.Year == year).LastOrDefaultAsync();
-                    if (transaction_number != null) { transactionInfo.transaction_number = transaction_number.transaction_number + 1; } else { transactionInfo.transaction_number = 1; }
+                    //transaction_number = await _data.transactions.OrderBy(x=>x.transaction_number).Where(x=>x.create_at.Date.Year == year).LastOrDefaultAsync();
+                    //if (transaction_number != null) { transactionInfo.transaction_number = transaction_number.transaction_number + 1; } else { transactionInfo.transaction_number = 1; }
 
+                    transactionInfo.transaction_number = transactionInfo.transaction_number;
                     transactionInfo.transaction_year = transactionInfo.create_at.Year;
                     transactionInfo.update_at = DateTime.Now;                   
                     transactionInfo.state = true;
@@ -54,14 +55,14 @@ namespace passport_aca.Data
                     await _data.SaveChangesAsync();
                     return massageInfo;
                 }
-                else if (nationality_number == null && finacial_recipt_number != null)
+                else if (nationality_number == null && finacial_recipt_number != null && transaction_number == null)
                 {
                     massageInfo.Massage = "  رقم الايصال المالي موجود مسبقاً ..لم تنجح عملية الإضافة";
                     massageInfo.statuscode = 406;
                     return massageInfo;
 
                 }
-                else if (nationality_number != null && finacial_recipt_number == null)
+                else if (nationality_number != null && finacial_recipt_number == null && transaction_number == null)
                 {
 
                     massageInfo.Massage = "  الرقم الوطني تم تكراره ..لم تنجح عملية الإضافة";
@@ -69,9 +70,19 @@ namespace passport_aca.Data
                     return massageInfo;
 
                 }
-                else {
+                else if (nationality_number == null && finacial_recipt_number == null && transaction_number != null)
+                {
 
-                    massageInfo.Massage = "  الرقم الوطني و رقم الايصال المالي تم تكراره ..لم تنجح عملية الإضافة";
+                    massageInfo.Massage = "  الرقم المعاملة تم تكراره ..لم تنجح عملية الإضافة";
+                    massageInfo.statuscode = 406;
+                    return massageInfo;
+
+                }
+
+                else
+                {
+
+                    massageInfo.Massage = "  الرقم الوطني و رقم الايصال المالي  و رقم المعاملة تم تكراره ..لم تنجح عملية الإضافة";
                     massageInfo.statuscode = 406;
                     return massageInfo;
 
@@ -220,7 +231,7 @@ namespace passport_aca.Data
 
                 }
 
-                if ( pict == false)
+                if ( picture_date == false)
                 {
                     pict = true;
 
@@ -242,15 +253,18 @@ namespace passport_aca.Data
                 if (resevedName == null) { r_name = true; } else { r_name = false; } 
 
 
-                var sersh = await _data.transactions.Where(x => ((x.create_at >= date_from && x.create_at <= date_to) )
+                var sersh = await _data.transactions.Where(x => (((x.create_at.Date >= date_from.Value.Date && x.create_at.Date <= date_to.Value.Date) && ( pict == true && dev == true)) || true)
                                    && (x.transaction_number == trnsacton_number || transaction_num==true)
                                    && (x.passport_status == passport_status || pass_status == true)
                                    && (x.classification == classification || classifi == true)
-                                     && ((x.full_name.Contains(full_name) && f_name == false) || f_name == true)
-                                     && (x.nationality_number == nationality_number || nation_number == true)
-                                     && ((x.from_who.Contains(from_who) && f_who == false) || f_who == true)
-                                     && (x.finacial_recipt_number == finacial_recipt_number || finacial_number == true)
-                                     && ((x.resevedName.Contains(resevedName) && r_name == false) || r_name == true)
+                                   && ((x.full_name.Contains(full_name) && f_name == false) || f_name == true)
+                                   && (x.nationality_number == nationality_number || nation_number == true)
+                                   && ((x.from_who.Contains(from_who) && f_who == false) || f_who == true)
+                                   && (x.finacial_recipt_number == finacial_recipt_number || finacial_number == true)
+                                   && ((x.resevedName.Contains(resevedName) && r_name == false) || r_name == true)
+                                   && (((x.delivery_date.Date >= date_from.Value.Date && x.delivery_date.Date <= date_to.Value.Date) && (dev == false))  || dev == true)
+                                   && (((x.picture_date.Date >= date_from.Value.Date && x.picture_date.Date <= date_to.Value.Date)   && (pict == false)) || pict == true)
+
                                      ).ToListAsync();
                                   
                 foreach (var item in sersh)
@@ -287,14 +301,16 @@ namespace passport_aca.Data
                 MassageInfo massageInfo = new MassageInfo();
 
                 TransactionInfo transaction_update = await _data.transactions.FindAsync(transaction.id);
-                TransactionInfo transaction_u = await _data.transactions.FirstOrDefaultAsync(x =>( x.full_name == transaction.full_name ||   x.passport_number == transaction.passport_number) && x.id != transaction.id);
+                TransactionInfo fullName_u = await _data.transactions.FirstOrDefaultAsync(x =>( x.full_name == transaction.full_name || x.passport_number == transaction.passport_number) && x.id != transaction.id);
+                TransactionInfo passportNum_u = await _data.transactions.FirstOrDefaultAsync(x => (x.full_name == transaction.full_name || x.passport_number == transaction.passport_number) && x.id != transaction.id);
+                TransactionInfo transactionNum_u = await _data.transactions.FirstOrDefaultAsync(x => (x.full_name == transaction.full_name || x.passport_number == transaction.passport_number) && x.id != transaction.id);
 
-             //   TransactionInfo transaction_u = await _data.transactions.FirstOrDefaultAsync(x => x.full_name == transaction.full_name || x.passport_number == transaction.passport_number);
+             //  TransactionInfo transaction_u = await _data.transactions.FirstOrDefaultAsync(x => x.full_name == transaction.full_name || x.passport_number == transaction.passport_number);
 
 
                 if (transaction_update != null)
                 {
-                    if (transaction_u == null)
+                    if (transactionNum_u == null && fullName_u == null && passportNum_u == null)
                     {
                         transaction_update.full_name = transaction.full_name;
 
@@ -305,20 +321,24 @@ namespace passport_aca.Data
                         transaction_update.classification = transaction.classification;
 
                         transaction_update.finacial_recipt_number = transaction.finacial_recipt_number;
-                        
+
                         transaction_update.transaction_number = transaction.transaction_number;
-                        
+
                         transaction_update.delivery_date = transaction.delivery_date;
-                        
+
                         transaction_update.passport_status = transaction.passport_status;
-                        
+
                         transaction_update.update_at = DateTime.Now;
-                        
+
                         transaction_update.UserId = transaction.UserId;
 
                         transaction_update.date_of_birth = transaction.date_of_birth;
 
                         transaction_update.resevedName = transaction.resevedName;
+
+                        transaction_update.nationality_number = transaction.nationality_number;
+
+                        transaction_update.from_who = transaction.from_who;
 
                         _data.transactions.Update(transaction_update);
                         await _data.SaveChangesAsync();
@@ -328,8 +348,48 @@ namespace passport_aca.Data
                         return massageInfo;
 
                     }
-                    else
+                    else if (transactionNum_u != null && fullName_u == null && passportNum_u == null)
                     {
+
+                        transaction_update.full_name = transaction.full_name;
+
+                        transaction_update.passport_number = transaction.passport_number;
+
+                        transaction_update.picture_date = transaction.picture_date;
+
+                        transaction_update.classification = transaction.classification;
+
+                        transaction_update.finacial_recipt_number = transaction.finacial_recipt_number;
+
+                        transaction_update.delivery_date = transaction.delivery_date;
+
+                        transaction_update.passport_status = transaction.passport_status;
+
+                        transaction_update.update_at = DateTime.Now;
+
+                        transaction_update.UserId = transaction.UserId;
+
+                        transaction_update.date_of_birth = transaction.date_of_birth;
+
+                        transaction_update.resevedName = transaction.resevedName;
+
+                        transaction_update.nationality_number = transaction.nationality_number;
+
+                        transaction_update.from_who = transaction.from_who;
+
+                        _data.transactions.Update(transaction_update);
+                        await _data.SaveChangesAsync();
+
+                        massageInfo.Massage = "لم تتم عملية التعديل علي حقل رقم المعاملة  الرجاء التأكد من عدم تكرار البيانات ";
+                        massageInfo.statuscode = 203;
+                        return massageInfo;
+
+                    }
+                    else if (transactionNum_u == null && fullName_u != null && passportNum_u == null)
+                    {
+
+                        transaction_update.passport_number = transaction.passport_number;
+
                         transaction_update.picture_date = transaction.picture_date;
 
                         transaction_update.classification = transaction.classification;
@@ -342,14 +402,91 @@ namespace passport_aca.Data
 
                         transaction_update.passport_status = transaction.passport_status;
 
-                        transaction_update.update_at = DateTime.Now.Date;
+                        transaction_update.update_at = DateTime.Now;
 
                         transaction_update.UserId = transaction.UserId;
+
+                        transaction_update.date_of_birth = transaction.date_of_birth;
+
+                        transaction_update.resevedName = transaction.resevedName;
+
+                        transaction_update.nationality_number = transaction.nationality_number;
+
+                        transaction_update.from_who = transaction.from_who;
 
                         _data.transactions.Update(transaction_update);
                         await _data.SaveChangesAsync();
 
-                        massageInfo.Massage = "    لم تتم عملية التعديل علي حقل الاسم او رقم الجواز الرجاء التأكد من عدم تكرار البيانات";
+                        massageInfo.Massage = " لم تتم عملية التعديل علي حقل الاسم  الرجاء التأكد من عدم تكرار البيانات ";
+                        massageInfo.statuscode = 203;
+                        return massageInfo;
+                    }
+                    else if (transactionNum_u == null && fullName_u == null && passportNum_u != null) {
+                        transaction_update.full_name = transaction.full_name;
+
+                        transaction_update.passport_number = transaction.passport_number;
+
+                        transaction_update.picture_date = transaction.picture_date;
+
+                        transaction_update.classification = transaction.classification;
+
+                        transaction_update.finacial_recipt_number = transaction.finacial_recipt_number;
+
+                        transaction_update.transaction_number = transaction.transaction_number;
+
+                        transaction_update.delivery_date = transaction.delivery_date;
+
+                        transaction_update.passport_status = transaction.passport_status;
+
+                        transaction_update.update_at = DateTime.Now;
+
+                        transaction_update.UserId = transaction.UserId;
+
+                        transaction_update.date_of_birth = transaction.date_of_birth;
+
+                        transaction_update.resevedName = transaction.resevedName;
+
+                        transaction_update.nationality_number = transaction.nationality_number;
+
+                        transaction_update.from_who = transaction.from_who;
+
+                        _data.transactions.Update(transaction_update);
+                        await _data.SaveChangesAsync();
+
+                        massageInfo.Massage = "لم تتم عملية التعديل علي حقل  رقم الجواز الرجاء التأكد من عدم تكرار البيانات  ";
+                        massageInfo.statuscode = 203;
+                        return massageInfo;
+                    }
+                    else
+                    {
+
+
+                        transaction_update.picture_date = transaction.picture_date;
+
+                        transaction_update.classification = transaction.classification;
+
+                        transaction_update.finacial_recipt_number = transaction.finacial_recipt_number;
+
+                        transaction_update.delivery_date = transaction.delivery_date;
+
+                        transaction_update.passport_status = transaction.passport_status;
+
+                        transaction_update.update_at = DateTime.Now;
+
+                        transaction_update.UserId = transaction.UserId;
+
+                        transaction_update.date_of_birth = transaction.date_of_birth;
+
+                        transaction_update.resevedName = transaction.resevedName;
+
+                        transaction_update.nationality_number = transaction.nationality_number;
+
+                        transaction_update.from_who = transaction.from_who;
+
+                        _data.transactions.Update(transaction_update);
+                        await _data.SaveChangesAsync();
+
+                        massageInfo.Massage = " لم تتم عملية التعديل علي حقل الاسم ورقم المعاملة و رقم الجواز الرجاء التأكد من عدم تكرار البيانات";
                         massageInfo.statuscode = 203;
 
                         return massageInfo;
