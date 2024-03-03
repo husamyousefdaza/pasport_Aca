@@ -129,8 +129,8 @@
                         الإجراء
                       </label>
 
-                      <div class="relative">
-                        <button   @click="measureselect = !measureselect" id="measure" class="
+                      <div @click="measureselect = !measureselect" class="relative">
+                        <button    id="measure" class="
                               text-right
                               block
                               mt-2
