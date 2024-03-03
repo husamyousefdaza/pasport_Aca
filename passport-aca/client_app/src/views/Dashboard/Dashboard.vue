@@ -73,7 +73,7 @@
                                         <button class="bg-white p-4 hover:shadow focus:outline-none group">
                                             <div class="flex justify-between items-start">
                                                 <div class="">
-                                                    <p class="text-gray-900">المعاملات المحجوزة</p>
+                                                    <p class="text-gray-900">المعاملات الموقوفة</p>
                                                     <p class="font-bold text-primary-blue text-3xl mt-2 text-right">
                                                         {{ Reports.count_Of_stopped }}
                                                     </p>

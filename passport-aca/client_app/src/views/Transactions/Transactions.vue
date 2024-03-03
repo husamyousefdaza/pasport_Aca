@@ -290,7 +290,7 @@
                     </div>
 
 
-                    <div class="sm:col-span-2">
+                    <div v-if=" this.role.includes('who')" class="sm:col-span-2">
                       <label for="summary" class="block text-base font-semibold text-gray-800">
                       من طرف من
                       </label>
@@ -573,7 +573,7 @@
               </div>
 
 
-              <button  @click="pr()" class="
+              <button  v-if="this.role.includes('print')" @click="pr()" class="
                     px-8
                     mr-2
                     bg-green-700
@@ -689,6 +689,8 @@ export default {
   mounted() {
 
 
+
+ 
     var date = new Date();
 
 var month = date.getMonth() + 1;
@@ -702,7 +704,7 @@ if (day < 10) day = "0" + day;
 this.date_from = "2024" + "-" + "01" + "-" + "01";
 this.date_to = date.getFullYear() + "-" + month + "-" + day;
 
-
+this.role= sessionStorage.getItem('user_role');
 
       this.Search();
 
@@ -716,7 +718,7 @@ this.date_to = date.getFullYear() + "-" + month + "-" + day;
   data() {
     return {
 
-      
+      role:["",""],
       finacial_recipt_number2:"",
 
       national_number:"",
@@ -797,7 +799,7 @@ this.date_to = date.getFullYear() + "-" + month + "-" + day;
                 setTimeout(() => {
                     this.screenFreeze = false;
                     this.loading = false;
-                    this.Transactions = res.data.transactionList;
+                    this.Transactions = res.data;
                     this.totalOfTransaction = res.data.totalOfTransaction
                 }, 100);
                 

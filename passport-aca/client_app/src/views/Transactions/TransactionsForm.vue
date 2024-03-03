@@ -82,18 +82,19 @@
                                         </div>
 
 
-              <div class="col-span-3 flex items-center justify-between">
+
+
+                                        <div class="col-span-3 flex items-center justify-between">
                                             <label for="transaction_number" class=" text-sm font-medium text-gray-700 w-36">
                                                 رقم المعاملة
                                             </label>
-                                            <div 
-                                            class="px-2 focus:outline-none focus:shadow hover:shadow-sm rounded-md w-full pt-2 h-8 text-sm border-gray-300 bg-white text-center"
-                  >
-                   {{ transactionInfo.transaction_number }}
-                  </div>
+
+                                            <input type="number" v-model="transactionInfo.transaction_number" id="transaction_number" class="px-2 focus:outline-none focus:shadow hover:shadow-sm rounded-md w-full h-8 text-sm border-gray-300">
                                         </div>
 
+                                        
 
+      
 
 
 
@@ -277,7 +278,7 @@
 
 
 
-                                <div class="pt-6">
+                                <div v-if="this.role.includes('dil')"  class="pt-6">
                                     <div>
                                         <h3 class="text-lg leading-6 font-medium text-gray-900">
                                             بيانات التسليم
@@ -420,6 +421,9 @@ import svgLoadingComponent from '@/components/svgLoadingComponent.vue';
 export default {
   created() {},
   mounted() {
+
+    this.role= sessionStorage.getItem('user_role');
+
     this.checkAddOrUpdate();
   },
   components: {
@@ -429,6 +433,10 @@ export default {
   },
   data() {
     return {
+
+
+role:[],
+
         userId: this.$authenticatedUser.userId,
         name: this.$authenticatedUser.name,
         userName: this.$authenticatedUser.userName,
@@ -453,7 +461,7 @@ export default {
             passport_number:'',
             birthdate:"",
 
-            delivery_date:"0001-01-01",
+            delivery_date:"1111-11-11",
             finacial_recipt_number:'',
             transaction_number:'',
             classification:"أول مرة",
@@ -475,7 +483,7 @@ export default {
   watch:{
 
     nationality_number : function() {
-      if (this.nationality_number.length != 12 && this.nationality_number.length != 0) {
+      if ((this.nationality_number.length > 12 || this.nationality_number.length <12 )&& this.nationality_number.length != 0) {
         this.national_valid = true;
       } else {
         this.national_valid = false;
@@ -550,7 +558,7 @@ this.transactionInfo.delivery_date  = date3.getFullYear() + "-" + month3 + "-" +
             
             
            
-
+this.nationality_number = respons.nationality_number,
                 this.transactionInfo.full_name = respons.full_name,
                 this.transactionInfo.passport_number = respons.passport_number,
                 
@@ -571,9 +579,9 @@ this.transactionInfo.delivery_date  = date3.getFullYear() + "-" + month3 + "-" +
                 this.transactionInfo.passport_status = respons.passport_status
 
                 this.transactionInfo.resevedName= respons.resevedName ,
-                this.transactionInfo.reason_of_stopping =  respons.reason_of_stopping,
+                this.transactionInfo.reason_of_stopping =  respons.reason_of_stopping
 
-                this.transactionInfo.nationality_number = respons.nationality_number
+               
 
                 
                 
@@ -603,7 +611,7 @@ this.transactionInfo.delivery_date  = date3.getFullYear() + "-" + month3 + "-" +
 
             full_name: this.transactionInfo.full_name,
             date_of_birth: this.transactionInfo.birthdate,
-            nationality_number: this.transactionInfo.nationality_number,
+            nationality_number: this.nationality_number,
             finacial_recipt_number: Number(this.transactionInfo.finacial_recipt_number),
             from_who:this.transactionInfo.from_who,
             picture_date: this.transactionInfo.date_of_photography,

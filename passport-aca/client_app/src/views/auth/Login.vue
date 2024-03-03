@@ -100,10 +100,20 @@
                              مرحبا بك مجدداَ في منظومة الجوازات. 
                         </div>
 
-                        <div class="">
+                        <div v-if="this.listrole.includes('dash')" class="">
                             <router-link :to="{ name: 'Dashboard' }" class="py-2 px-8 border border-transparent shadow-sm text-sm font-medium rounded-md text-primary-golden border-primary-golden hover:bg-primary-golden hover:text-white duration-300 focus:outline-none">
                                 دخول
                             </router-link>
+
+                            
+                        </div>
+
+                        <div class="" v-else>
+                            <router-link :to="{ name: 'Transactions' }" class="py-2 px-8 border border-transparent shadow-sm text-sm font-medium rounded-md text-primary-golden border-primary-golden hover:bg-primary-golden hover:text-white duration-300 focus:outline-none">
+                                دخول
+                            </router-link>
+
+                            
                         </div>
                     </div>
                 </div>
@@ -182,7 +192,7 @@ export default {
 
         users:{},
 
-
+       listrole:[],
         user:{}
     };
   },
@@ -232,9 +242,12 @@ export default {
                     this.loading = false;
                     // this.screenFreeze = false;
 
+                    this.listrole={},
                     this.loginSuccess = true;
 
                     this.user = res.data
+
+                    this.listrole= res.data.listrole
 
                     this.$authenticatedUser.userId = this.user.administrator.id
 
@@ -242,7 +255,7 @@ export default {
 
 
                     sessionStorage.setItem("user_id", this.user.administrator.id);
-                    sessionStorage.setItem("user_role", this.user.administrator.listrole);
+                    sessionStorage.setItem("user_role", this.user.listrole );
 
 
                     this.$authenticatedUser.name = this.user.administrator.name
@@ -257,8 +270,9 @@ export default {
                     this.loading = false;
                     // this.screenFreeze = false;
 
-                    this.loginSuccess = false;
+                 //   this.loginSuccess = false;
 
+                    
                   console.log(err)
 
                 }, 100);
