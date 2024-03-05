@@ -829,7 +829,7 @@ this.role= sessionStorage.getItem('user_role');
       this.screenFreeze = true;
         this.loading = true;
         this.$http.TransactionsService
-            .Search(this.date_from,this.date_to,Number(this.transaction_number),this.measureNameSelected,this.classNameSelected,this.pass_name,this.from_who,this.pic_date,Number(this.finacial_recipt_number2),Number(this.national_number),this.rec_name,this.rec_date)
+            .Search(1,1000000,this.date_from,this.date_to,Number(this.transaction_number),this.measureNameSelected,this.classNameSelected,this.pass_name,this.from_who,this.pic_date,Number(this.finacial_recipt_number2),Number(this.national_number),this.rec_name,this.rec_date)
             .then((res) => {
                 setTimeout(() => {
                     this.screenFreeze = false;
