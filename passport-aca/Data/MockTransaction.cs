@@ -204,12 +204,12 @@ namespace passport_aca.Data
             }
         }
 
-        public async Task<List< TransactionViewModel>> search(DateTime? date_from, DateTime? date_to, int? trnsacton_number, string? passport_status, string? classification, string? full_name, string? from_who, bool? picture_date, int? finacial_recipt_number, long? nationality_number, string? resevedName, bool? delivery_date)
+        public async Task<PageingDtocs> search(int pageNumber,int pageSize, DateTime? date_from, DateTime? date_to, int? trnsacton_number, string? passport_status, string? classification, string? full_name, string? from_who, bool? picture_date, int? finacial_recipt_number, long? nationality_number, string? resevedName, bool? delivery_date)
         {
             try
             {
-                List<TransactionViewModel> fg = new List<TransactionViewModel>();
-
+                PageingDtocs fg = new PageingDtocs();
+                fg.TotalOfTransaction = _data.transactions.Count();
                 bool transaction_num = false;
                 bool pass_status = false;
                 bool classifi = false;
@@ -265,29 +265,28 @@ namespace passport_aca.Data
                                    && (((x.delivery_date.Date >= date_from.Value.Date && x.delivery_date.Date <= date_to.Value.Date) && (dev == false))  || dev == true)
                                    && (((x.picture_date.Date >= date_from.Value.Date && x.picture_date.Date <= date_to.Value.Date)   && (pict == false)) || pict == true)
 
-                                     ).ToListAsync();
+                                     ).OrderByDescending(x => x.update_at).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
                                   
                 foreach (var item in sersh)
                 {
 
-                  var fgg = new TransactionViewModel
+                    fg.TransactionList.Add(new TransactionViewModel()
+
                     {
-                        finacial_recipt_number =item.finacial_recipt_number ,
-                        delivery_date = item.delivery_date.ToString(),
+                        finacial_recipt_number = item.finacial_recipt_number,
+                        delivery_date = item.delivery_date.ToString("yyyy-MM-dd"),
                         fromWho = item.from_who,
                         full_name = item.full_name,
                         passport_status = item.passport_status,
-                        picture_date = item.picture_date.ToString(),
+                        picture_date = item.picture_date.ToString("yyyy-MM-dd"),
                         transaction_number = item.transaction_number,
                         id = item.id
-                    };
-                    fg.Add(fgg);
+                    });
                 }
+                
 
                 return fg;
             }
-
-
             catch (Exception)
             {
                 throw;
@@ -340,6 +339,8 @@ namespace passport_aca.Data
 
                         transaction_update.from_who = transaction.from_who;
 
+                        transaction_update.reason_of_stopping = transaction.reason_of_stopping;
+
                         _data.transactions.Update(transaction_update);
                         await _data.SaveChangesAsync();
 
@@ -376,6 +377,8 @@ namespace passport_aca.Data
                         transaction_update.nationality_number = transaction.nationality_number;
 
                         transaction_update.from_who = transaction.from_who;
+
+                        transaction_update.reason_of_stopping = transaction.reason_of_stopping;
 
                         _data.transactions.Update(transaction_update);
                         await _data.SaveChangesAsync();
@@ -414,6 +417,8 @@ namespace passport_aca.Data
 
                         transaction_update.from_who = transaction.from_who;
 
+                        transaction_update.reason_of_stopping = transaction.reason_of_stopping;
+
                         _data.transactions.Update(transaction_update);
                         await _data.SaveChangesAsync();
 
@@ -450,6 +455,8 @@ namespace passport_aca.Data
 
                         transaction_update.from_who = transaction.from_who;
 
+                        transaction_update.reason_of_stopping = transaction.reason_of_stopping;
+
                         _data.transactions.Update(transaction_update);
                         await _data.SaveChangesAsync();
 
@@ -482,6 +489,8 @@ namespace passport_aca.Data
                         transaction_update.nationality_number = transaction.nationality_number;
 
                         transaction_update.from_who = transaction.from_who;
+
+                        transaction_update.reason_of_stopping = transaction.reason_of_stopping;
 
                         _data.transactions.Update(transaction_update);
                         await _data.SaveChangesAsync();
@@ -632,7 +641,8 @@ namespace passport_aca.Data
                 PageingDtocs pageing = new PageingDtocs();
                 pageing.TotalOfTransaction = _data.transactions.Count();
                 List<TransactionInfo> transaction = await _data.transactions.OrderByDescending(x=>x.update_at).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
-              //  transaction.Reverse();
+                
+                // transaction.Reverse();
                 //var config = new MapperConfiguration(mc => mc.CreateMap<TransactionInfo, TransactionViewModel>());
               
 

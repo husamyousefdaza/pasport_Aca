@@ -32,9 +32,9 @@ namespace passport_aca.Controllers
         [HttpGet]
         [Route("Search")]
 
-        public async Task<ActionResult<List<TransactionViewModel>>> Search(DateTime? date_from,DateTime? date_to, int? trnsacton_number, string? passport_status, string? classification, string? full_name, string? from_who, bool? picture_date, int? finacial_recipt_number, long? nationality_number, string? resevedName, bool? delivery_date)
+        public async Task<ActionResult<PageingDtocs>> Search(int pageNumber, int pageSize, DateTime? date_from,DateTime? date_to, int? trnsacton_number, string? passport_status, string? classification, string? full_name, string? from_who, bool? picture_date, int? finacial_recipt_number, long? nationality_number, string? resevedName, bool? delivery_date)
         {
-           List<TransactionViewModel> transaction = await _transaction.search(date_from, date_to,trnsacton_number, passport_status,  classification, full_name,  from_who, picture_date,  finacial_recipt_number,  nationality_number,  resevedName,  delivery_date);
+            PageingDtocs transaction = await _transaction.search( pageNumber,  pageSize, date_from, date_to,trnsacton_number, passport_status,  classification, full_name,  from_who, picture_date,  finacial_recipt_number,  nationality_number,  resevedName,  delivery_date);
             return Json(transaction);
         }
         [HttpGet]
