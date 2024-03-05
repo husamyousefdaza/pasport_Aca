@@ -1,11 +1,11 @@
   
 <template>
-    <div class="">
+    <div v-on:keyup.enter="Search" class="">
         <div class="h-screen bg-white overflow-hidden flex">
             <asideComponent></asideComponent>
             <div class="flex-1 bg-gray-200 w-0 overflow-y-auto pb-10">
-
-              <div class="flex items-center w-full  justify-center  mt-6">
+              <navComponent></navComponent>
+              <div class="flex items-center w-full  justify-center  ">
                 <span class="text-base font-medium text-gray-800">
                   التاريخ :
                 </span>
@@ -42,7 +42,7 @@
               </div>
 
                 <div class="mx-4    flex flex-col md:px-8 xl:px-0">
-                    <navComponent></navComponent>
+                    
 
                     
                
@@ -715,6 +715,30 @@ this.role= sessionStorage.getItem('user_role');
       navComponent,
       svgLoadingComponent
   },
+
+
+  watch: {
+
+
+    pic_date: function () {
+  
+
+      if(this.pic_date==true){
+
+        this.rec_date=false
+      }
+    },
+
+    rec_date: function () {
+  
+
+  if(this.rec_date==true){
+
+    this.pic_date=false
+  }
+},
+
+  },
   data() {
     return {
 
@@ -781,6 +805,17 @@ this.role= sessionStorage.getItem('user_role');
               params: {
                 dateFrom: this.date_from,
                 dateTo: this.date_to,
+
+                transaction_number: Number(this.transaction_number),
+                measureNameSelected: this.measureNameSelected,
+                classNameSelected:this.classNameSelected,
+                pass_name: this.pass_name,
+                from_who: this.from_who,
+                pic_date: this.pic_date,
+                finacial_recipt_number2:Number(this.finacial_recipt_number2),
+                national_number: Number(this.national_number),
+                rec_name: this.rec_name,
+                rec_date: this.rec_date
               },
             });
     },

@@ -460,7 +460,7 @@ role:[],
             full_name:'',
             passport_number:'',
             birthdate:"",
-
+            
             delivery_date:"1111-11-11",
             finacial_recipt_number:'',
             transaction_number:'',
@@ -571,10 +571,12 @@ this.nationality_number = respons.nationality_number,
 
                 this.transactionInfo.from_who =  respons.from_who,
 
-                
+                this.transactionInfo.transaction_number =  respons.transaction_number,
 
+                
+                
                 this.transactionInfo.finacial_recipt_number = respons.finacial_recipt_number
-                this.transactionInfo.transaction_number = respons.transaction_number
+             
                
                 this.transactionInfo.passport_status = respons.passport_status
 
@@ -620,7 +622,7 @@ this.nationality_number = respons.nationality_number,
 
             classification:  this.transactionInfo.classification,
 
-
+            transaction_number:this.transactionInfo.transaction_number,
 
             resevedName:  this.transactionInfo.resevedName,
             passport_number: this.transactionInfo.passport_number,

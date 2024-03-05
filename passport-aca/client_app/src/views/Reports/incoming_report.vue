@@ -453,12 +453,12 @@
         this.screenFreeze = true;
         this.loading = true;
         this.$http.TransactionsService
-            .GetAllTransactions(1, 100000)
+             .Search(this.$route.params.dateFrom,this.$route.params.dateTo,this.$route.params.transaction_number,this.$route.params.measureNameSelected,this.$route.params.classNameSelected,this.$route.params.pass_name,this.$route.params.from_who,this.$route.params.pic_date,this.$route.params.finacial_recipt_number2,this.$route.params.national_number,this.$route.params.rec_name,this.$route.params.rec_date)
             .then((res) => {
                 setTimeout(() => {
                     this.screenFreeze = false;
                     this.loading = false;
-                    this.Transactions = res.data.transactionList;
+                    this.Transactions = res.data;
                     this.totalOfTransaction = res.data.totalOfTransaction
                 }, 100);
                 
