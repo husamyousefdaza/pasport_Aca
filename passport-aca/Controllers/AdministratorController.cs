@@ -94,7 +94,7 @@ namespace passport_aca.Controllers
         public async Task<ActionResult<MassageInfo>> UpdateUser([FromBody] UserAddORUpdate user)
     {
 
-            user.Administrator.Password = BCrypt.Net.BCrypt.HashPassword(user.Administrator.Password);
+           // user.Administrator.Password = BCrypt.Net.BCrypt.HashPassword(user.Administrator.Password);
             MassageInfo massages=  await _data.UpdateAdministrator(user);
             if (massages.statuscode == 202)
                 return Ok(massages);
