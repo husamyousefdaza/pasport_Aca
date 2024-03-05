@@ -17,8 +17,8 @@ namespace passport_aca.Controllers
         {
             _data = users;
         }
-     public IAdministratorInterface _data { get; }
 
+        public IAdministratorInterface _data { get; }
 
         [HttpGet]
         [Route("GetAllAdministrators")]
@@ -32,7 +32,6 @@ namespace passport_aca.Controllers
             else
             {
                 return NotFound();
-
             }
         }
 
