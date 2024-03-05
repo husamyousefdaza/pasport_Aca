@@ -234,7 +234,7 @@ namespace passport_aca.Data
 
 
 
-                List<Administrator> d = await _data.Administrator.OrderByDescending(x => x.id).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+                List<Administrator> d = await _data.Administrator.Where(x=>x.state==true).OrderByDescending(x => x.id).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
                 pageing.total = _data.Administrator.Count();
 
                 foreach (var item in d)
