@@ -458,7 +458,7 @@
                 setTimeout(() => {
                     this.screenFreeze = false;
                     this.loading = false;
-                    this.Transactions = res.data;
+                    this.Transactions = res.data.transactionList;
                     this.totalOfTransaction = res.data.totalOfTransaction
                 }, 100);
                 
