@@ -3,10 +3,10 @@ module.exports = {
     //filenameHashing: false,
     devServer: {
         port: 8080,
-        https: true,
+        https: false,
         proxy: {
             "": {
-                target: 'https://localhost:44301/',
+                target: 'http://localhost:58956/',
             }
         }
     }
