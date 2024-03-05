@@ -212,12 +212,12 @@ export default {
 
     
       this.$http.AdministratorsService
-        .GetAllAdministrators(1,100)
+        .GetAllAdministrators1()
         .then((res) => {
           this.loading = false;
           this.screenFreeze = false;
 
-          this.users = res.data.listofUser;
+          this.users = res.data;
         })
         .catch((err) => {
           console.log(err);
