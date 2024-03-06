@@ -28,7 +28,12 @@ namespace passport_aca.Data
         {
            
             MassageInfo massageInfo = new MassageInfo();
+
             try {
+                Historyes historyes = new Historyes();
+
+            
+
                 int year = DateTime.Now.Year;
               
                 TransactionInfo nationality_number = new TransactionInfo();
@@ -42,14 +47,20 @@ namespace passport_aca.Data
                 {
                     transactionInfo.create_at = DateTime.Now;
 
-                    //transaction_number = await _data.transactions.OrderBy(x=>x.transaction_number).Where(x=>x.create_at.Date.Year == year).LastOrDefaultAsync();
-                    //if (transaction_number != null) { transactionInfo.transaction_number = transaction_number.transaction_number + 1; } else { transactionInfo.transaction_number = 1; }
-
+            
                     transactionInfo.transaction_number = transactionInfo.transaction_number;
                     transactionInfo.transaction_year = transactionInfo.create_at.Year;
                     transactionInfo.update_at = DateTime.Now;                   
                     transactionInfo.state = true;
                     await _data.transactions.AddAsync(transactionInfo);
+
+                    historyes.HistortyNameID = 1;
+                    historyes.Time = DateTime.Now;
+                    historyes.transactionid = transactionInfo.transaction_number;
+                    historyes.currentUser = transactionInfo.UserId;
+                    historyes.changes = "اضافة معاملة جديدة" ;
+                    await _data.History.AddAsync(historyes);
+
                     massageInfo.Massage = " تمت عملية الاضافة بنجاح";
                     massageInfo.statuscode = 201;
                     await _data.SaveChangesAsync();
@@ -106,8 +117,7 @@ namespace passport_aca.Data
                 MassageInfo massageInfo = new MassageInfo();
                 Numbers_Of_Reports count_of = new Numbers_Of_Reports();
                 
-              //  List<TransactionInfo> transactions = await _data.transactions.ToListAsync();
-
+           
                 List<TransactionInfo> stopped = await(from tr in _data.transactions
                                                                              where tr.passport_status == "موقوفة"
                                                                              select tr).ToListAsync();
@@ -127,7 +137,6 @@ namespace passport_aca.Data
                                                                              where tr.passport_status == "تحت الإجراء"
                                                                                select tr).ToListAsync();
 
-//                count_of.Count_Of_all_transaction = transactions.Count();
 
                 count_of.Count_Of_received = received.Count();
 
@@ -304,8 +313,8 @@ namespace passport_aca.Data
                 TransactionInfo passportNum_u = await _data.transactions.FirstOrDefaultAsync(x => (x.full_name == transaction.full_name || x.passport_number == transaction.passport_number) && x.id != transaction.id);
                 TransactionInfo transactionNum_u = await _data.transactions.FirstOrDefaultAsync(x => (x.full_name == transaction.full_name || x.passport_number == transaction.passport_number) && x.id != transaction.id);
 
-             //  TransactionInfo transaction_u = await _data.transactions.FirstOrDefaultAsync(x => x.full_name == transaction.full_name || x.passport_number == transaction.passport_number);
-
+                Historyes historyes = new Historyes();
+         
 
                 if (transaction_update != null)
                 {
@@ -344,6 +353,13 @@ namespace passport_aca.Data
                         _data.transactions.Update(transaction_update);
                         await _data.SaveChangesAsync();
 
+                        historyes.HistortyNameID = 1;
+                        historyes.Time = DateTime.Now;
+                        historyes.transactionid = transaction.transaction_number;
+                        historyes.currentUser = transaction.UserId;
+                        historyes.changes = " تمت عملية التعديل بنجاح ";
+                        await _data.History.AddAsync(historyes);
+
                         massageInfo.Massage = "تمت عملية التعديل بنجاح  ";
                         massageInfo.statuscode = 203;
                         return massageInfo;
@@ -379,6 +395,13 @@ namespace passport_aca.Data
                         transaction_update.from_who = transaction.from_who;
 
                         transaction_update.reason_of_stopping = transaction.reason_of_stopping;
+
+                        historyes.HistortyNameID = 1;
+                        historyes.Time = DateTime.Now;
+                        historyes.transactionid = transaction.transaction_number;
+                        historyes.currentUser = transaction.UserId;
+                        historyes.changes = "  تمت عملية التعديل ماعدا رقم المعاملة ";
+                        await _data.History.AddAsync(historyes);
 
                         _data.transactions.Update(transaction_update);
                         await _data.SaveChangesAsync();
@@ -422,6 +445,13 @@ namespace passport_aca.Data
                         _data.transactions.Update(transaction_update);
                         await _data.SaveChangesAsync();
 
+                        historyes.HistortyNameID = 1;
+                        historyes.Time = DateTime.Now;
+                        historyes.transactionid = transaction.transaction_number;
+                        historyes.currentUser = transaction.UserId;
+                        historyes.changes = "  تمت عملية التعديل ماعدا الاسم ";
+                        await _data.History.AddAsync(historyes);
+
                         massageInfo.Massage = " لم تتم عملية التعديل علي حقل الاسم  الرجاء التأكد من عدم تكرار البيانات ";
                         massageInfo.statuscode = 203;
                         return massageInfo;
@@ -460,6 +490,13 @@ namespace passport_aca.Data
                         _data.transactions.Update(transaction_update);
                         await _data.SaveChangesAsync();
 
+                        historyes.HistortyNameID = 1;
+                        historyes.Time = DateTime.Now;
+                        historyes.transactionid = transaction.transaction_number;
+                        historyes.currentUser = transaction.UserId;
+                        historyes.changes = "  تمت عملية التعديل ماعدا رقم الجواز";
+                        await _data.History.AddAsync(historyes);
+
                         massageInfo.Massage = "لم تتم عملية التعديل علي حقل  رقم الجواز الرجاء التأكد من عدم تكرار البيانات  ";
                         massageInfo.statuscode = 203;
                         return massageInfo;
@@ -494,6 +531,14 @@ namespace passport_aca.Data
 
                         _data.transactions.Update(transaction_update);
                         await _data.SaveChangesAsync();
+                        
+                        historyes.HistortyNameID = 1;
+                        historyes.Time = DateTime.Now;
+                        historyes.transactionid = transaction.transaction_number;
+                        historyes.currentUser = transaction.UserId;
+                        historyes.changes = "  تمت عملية التعديل ماعدا رقم الجواز  ";
+                        await _data.History.AddAsync(historyes);
+
 
                         massageInfo.Massage = " لم تتم عملية التعديل علي حقل الاسم ورقم المعاملة و رقم الجواز الرجاء التأكد من عدم تكرار البيانات";
                         massageInfo.statuscode = 203;
@@ -504,8 +549,7 @@ namespace passport_aca.Data
                 }
                 else
                 {
-                    // massageInfo.Massage = "المستخدم غير موجود ";
-                    massageInfo.statuscode = 404;
+                     massageInfo.statuscode = 404;
                     return massageInfo;
 
 
@@ -517,32 +561,7 @@ namespace passport_aca.Data
                 throw;
             }
         }
-        //public async Task<MassageInfo> UpdateTransaction(TransactionInfo transaction)
-        //{
-        //    try
-        //    {
-        //        MassageInfo massageInfo = new MassageInfo();
-
-        //        TransactionInfo transaction_update = await _data.transactions.FindAsync(transaction.id);
-
-
-        //        TransactionInfo transaction_update1 = await _data.transactions.FirstOrDefaultAsync(x => x.full_name != transaction.full_name && x.id != transaction.id && x.passport_number != transaction.passport_number);
-
-
-        //        if (transaction_update != null)
-        //        {
-        //            if()
-
-
-        //        }
-
-        //    }
-        //    catch (Exception)
-        //    {
-        //        throw;
-        //    }
-        //}
-
+  
 
         public async Task<List<reports>> UsersReport()
         {
@@ -642,8 +661,6 @@ namespace passport_aca.Data
                 pageing.TotalOfTransaction = _data.transactions.Count();
                 List<TransactionInfo> transaction = await _data.transactions.OrderByDescending(x=>x.update_at).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
                 
-                // transaction.Reverse();
-                //var config = new MapperConfiguration(mc => mc.CreateMap<TransactionInfo, TransactionViewModel>());
               
 
                 foreach (var item in transaction)
@@ -663,10 +680,7 @@ namespace passport_aca.Data
                        
 
                     });
-                    //var maper = new Mapper(config);
-
-                    //var list = maper.Map<List<TransactionInfo>, List<TransactionViewModel>>(transaction);
-
+                    
 
 
                 }
@@ -702,12 +716,6 @@ namespace passport_aca.Data
             }
 
 
-            //List<TransactionViewModel> l = new List<TransactionViewModel>();
-            //var config = new MapperConfiguration(mc=>mc.CreateMap<TransactionInfo,TransactionViewModel>());
-
-            //var maper = new Mapper(config);
-
-            //var list = maper.Map<List<TransactionInfo>,List<TransactionViewModel>>(c);
          
             return list;
 
