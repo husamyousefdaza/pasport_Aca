@@ -10,8 +10,8 @@ using System.Threading.Tasks;
 namespace passport_aca.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
-    public class AuthController : Controller
+    [Route("api/[controller]")]
+    public class AuthController : ControllerBase
     {
         public AuthController(IAdministratorInterface users)
         {

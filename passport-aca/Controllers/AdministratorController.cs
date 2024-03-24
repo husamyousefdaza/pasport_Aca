@@ -9,9 +9,11 @@ namespace passport_aca.Controllers
 {
 
     [ApiController]
-    [Route("[controller]")]
+   // [Route("[controller]")]
+    [Route("api/[controller]")]
 
-    public class AdministratorController : Controller
+    //public class AdministratorController : Controller
+    public class AdministratorController :  ControllerBase
     {
         public AdministratorController(IAdministratorInterface users)
         {
@@ -27,12 +29,23 @@ namespace passport_aca.Controllers
             var users = await _data.GetAllAdministrators();
             if (users != null)
             {
-                return Json(users);
+                //   return Json(users);
+                return Ok(users);
             }
             else
             {
                 return NotFound();
             }
+
+            //var users = new Administrator
+            //{
+            //    id = 18,
+            //    Username = "hus666",
+            //    Password = "$2a$11$LuQKt4V35vWVMQUOfI7bueNMMkq4lGTgu1Pjn4d1J5wNMsA2JP8Y2",
+            //    state = true
+            //};
+            //return Ok(users);
+
         }
 
 
@@ -45,13 +58,15 @@ namespace passport_aca.Controllers
             var users = await _data.GetAdministrator(page, pageSize);
             if (users != null)
             {
-                return Json(users);
+                //return Json(users);
+                return Ok(users);
             }
             else
             {
                 return NotFound();
 
             }
+           
         }
 
 
@@ -81,7 +96,8 @@ namespace passport_aca.Controllers
             
             if (user != null)
             {
-                return Json(user);
+                //return Json(user);
+                return Ok(user);
             }
             else {
                 return NotFound();

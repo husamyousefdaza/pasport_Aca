@@ -54,11 +54,12 @@ namespace passport_aca.Data
                     transactionInfo.state = true;
                     await _data.transactions.AddAsync(transactionInfo);
 
-                    historyes.HistortyNameID = 1;
+
+                    historyes.currentUser = transactionInfo.UserId;
                     historyes.Time = DateTime.Now;
                     historyes.transactionid = transactionInfo.transaction_number;
-                    historyes.currentUser = transactionInfo.UserId;
-                    historyes.changes = "اضافة معاملة جديدة" ;
+                    historyes.HistortyNameID = 1;
+                    historyes.changes = "اضافة معاملة جديدة";
                     await _data.History.AddAsync(historyes);
 
                     massageInfo.Massage = " تمت عملية الاضافة بنجاح";
