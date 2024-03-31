@@ -8,11 +8,13 @@ export default {
 
 
     NumbersOfReports() {
-        return axios.get(`/Dashboard/Numbers_Of_Reports`)
+      //  return axios.get(`/Dashboard/Numbers_Of_Reports`)
+        return axios.get(`/api/Dashboard/Numbers_Of_Reports`)
     },
 
     LastFiveTransactions() {
-        return axios.get(`/Dashboard/LastFiveTransactions`)
+       // return axios.get(`/Dashboard/LastFiveTransactions`)
+        return axios.get(`/api/Dashboard/LastFiveTransactions`)
     },
 
 }

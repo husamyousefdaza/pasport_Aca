@@ -47,7 +47,8 @@ namespace passport_aca
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
 
             app.UseAuthorization();
 

@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 namespace passport_aca.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
-    public class DashboardController : Controller
+    [Route("api/[controller]")]
+    public class DashboardController : ControllerBase
     {
         private readonly IAdministratorInterface _user;
         private readonly ITransactionInterface _transactions;

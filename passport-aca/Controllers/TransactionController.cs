@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 namespace passport_aca.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
-    public class TransactionController : Controller
+    [Route("api/[controller]")]
+    public class TransactionController : ControllerBase
 
     { 
          public TransactionController(ITransactionInterface transaction)
@@ -35,7 +35,7 @@ namespace passport_aca.Controllers
         public async Task<ActionResult<PageingDtocs>> Search(int pageNumber, int pageSize, DateTime? date_from,DateTime? date_to, int? trnsacton_number, string? passport_status, string? classification, string? full_name, string? from_who, bool? picture_date, int? finacial_recipt_number, long? nationality_number, string? resevedName, bool? delivery_date)
         {
             PageingDtocs transaction = await _transaction.search( pageNumber,  pageSize, date_from, date_to,trnsacton_number, passport_status,  classification, full_name,  from_who, picture_date,  finacial_recipt_number,  nationality_number,  resevedName,  delivery_date);
-            return Json(transaction);
+            return Ok(transaction);
         }
         [HttpGet]
         [Route("GetTransaction/{id}")]
@@ -45,7 +45,7 @@ namespace passport_aca.Controllers
             var transaction = await _transaction.GetTransaction(id);
 
             if(transaction!=null)
-            return Json(transaction);
+            return Ok(transaction);
             return NotFound(new MassageInfo() { Massage="لايوجد معاملمة",statuscode=404});
         }
 
@@ -110,7 +110,7 @@ namespace passport_aca.Controllers
 
           var list = await _transaction.UsersReport(page,pageSize);
             if(list.List.Count>0)
-             return Json(list);
+             return Ok(list);
             return NotFound(new MassageInfo() { Massage = "لايوجد بيانات", statuscode = 404 });
         }
     }
