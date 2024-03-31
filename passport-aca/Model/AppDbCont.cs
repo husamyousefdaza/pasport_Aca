@@ -28,6 +28,26 @@ namespace passport_aca.Model
         {
 
         }
+
+        protected override void OnModelCreating(ModelBuilder mb)
+        {
+            mb.Entity<HistortyName>().HasData(new HistortyName {ID =1, name = "≈÷«›… „⁄«„·…" },
+                new HistortyName {ID =2, name = " ⁄œÌ· „⁄«„·…" }
+
+
+            );
+
+            mb.Entity<Role>().HasData(new Role { RoleId = 1 ,Name = "·ÊÕ… «· Õﬂ„ " ,state=true,code= "dash" },
+              new Role {RoleId=2, Name = "«·„” Œœ„Ì‰  ", state = true, code = "user" },
+              new Role { RoleId = 3, Name = "ÿ»«⁄…  ", state = true, code = "print" },
+              new Role { RoleId = 4, Name = "„‰ ÿ—› „‰  ", state = true, code = "who" },
+              new Role { RoleId = 5, Name = " «· ”·Ì„ ", state = true, code = "dil" },
+              new Role { RoleId = 6, Name = "«·≈÷«›… Ê«· ⁄œÌ·  ", state = true, code = "add" }
+
+
+           );
+            base.OnModelCreating(mb);
+        }
         
     }
 }

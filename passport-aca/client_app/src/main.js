@@ -6,6 +6,7 @@ import './assets/css/tailwind.css';
 import DataService from './services/DataService.js';
 import Pagination from 'vue-pagination-2';
 Vue.component('pagination', Pagination);
+//import axios from 'axios';
 
 // Global instruction 
 
@@ -17,7 +18,7 @@ Vue.prototype.$http = DataService;
 
 import VueHtmlToPaper1 from "vue-html-to-paper";
 
-
+//axios.defaults.baseURL='http://192.168.112.1:82/';
 // const options = {
 //     name: 'report',
 //     specs: [
