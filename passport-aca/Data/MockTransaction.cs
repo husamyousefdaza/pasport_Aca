@@ -77,7 +77,7 @@ namespace passport_aca.Data
                 else if (nationality_number != null && finacial_recipt_number == null && transaction_number == null)
                 {
 
-                    massageInfo.Massage = "  الرقم الوطني تم تكراره ..لم تنجح عملية الإضافة";
+                    massageInfo.Massage = "  الرقم الوطني موجود مسبقاً ..لم تنجح عملية الإضافة";
                     massageInfo.statuscode = 406;
                     return massageInfo;
 
@@ -85,7 +85,7 @@ namespace passport_aca.Data
                 else if (nationality_number == null && finacial_recipt_number == null && transaction_number != null)
                 {
 
-                    massageInfo.Massage = "  الرقم المعاملة تم تكراره ..لم تنجح عملية الإضافة";
+                    massageInfo.Massage = "  رقم المعاملة موجود مسبقاً ..لم تنجح عملية الإضافة";
                     massageInfo.statuscode = 406;
                     return massageInfo;
 
@@ -94,7 +94,7 @@ namespace passport_aca.Data
                 else
                 {
 
-                    massageInfo.Massage = "  الرقم الوطني و رقم الايصال المالي  و رقم المعاملة تم تكراره ..لم تنجح عملية الإضافة";
+                    massageInfo.Massage = "  تكرار في الرقم الوطني و رقم الايصال المالي  و رقم المعاملة  ..لم تنجح عملية الإضافة";
                     massageInfo.statuscode = 406;
                     return massageInfo;
 

@@ -7,7 +7,7 @@ import DataService from './services/DataService.js';
 import Pagination from 'vue-pagination-2';
 Vue.component('pagination', Pagination);
 //import axios from 'axios';
-import axios from 'axios';
+
 
 // Global instruction 
 
@@ -19,13 +19,10 @@ Vue.prototype.$http = DataService;
 
 import VueHtmlToPaper1 from "vue-html-to-paper";
 
-<<<<<<< HEAD
 //axios.defaults.baseURL='http://192.168.112.1:82/';
-=======
 //axios.defaults.baseURL='http://localhost:85/';
-//axios.defaults.baseURL='http://192.168.112.2:85/';
-axios.defaults.baseURL='http://192.168.112.1:92/';
->>>>>>> 49cba0e6d8488813d84f17fc67f4ea89c1c6d08b
+
+//axios.defaults.baseURL='http://192.168.112.1:92/';
 // const options = {
 //     name: 'report',
 //     specs: [

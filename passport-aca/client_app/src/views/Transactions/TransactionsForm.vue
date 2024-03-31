@@ -434,6 +434,7 @@ export default {
   data() {
     return {
 
+        er1:[],
 
 role:[],
 
@@ -654,7 +655,7 @@ this.nationality_number = respons.nationality_number,
                     setTimeout(() => {
                         this.loading = false;
 
-                        this.AddEditMessage = 'حدث خطا ما الرجاء إعادة المحاولة في وقت لاحق.';
+                        this.AddEditMessage = err.response.data.message  || err.response.data.massage ;
 
                         this.AddEditAlert = true;
 
@@ -679,7 +680,8 @@ this.nationality_number = respons.nationality_number,
                     setTimeout(() => {
                         this.loading = false;
 
-                        this.AddEditMessage = 'حدث خطا ما الرجاء إعادة المحاولة في وقت لاحق.';
+                     
+                        this.AddEditMessage = err.response.data.message  || err.response.data.massage ;
 
                         this.AddEditAlert = true;
 

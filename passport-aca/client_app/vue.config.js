@@ -6,7 +6,7 @@ module.exports = {
         https: false,
         proxy: {
             "": {
-             //   target: 'http://localhost:58956/',
+               target: 'http://localhost:58956/',
             }
         }
     }
