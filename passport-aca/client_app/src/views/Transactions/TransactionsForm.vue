@@ -645,8 +645,8 @@ this.nationality_number = respons.nationality_number,
                     setTimeout(() => {
                         this.loading = false;
 
-                        this.AddEditMessage = 'تمت عملية التعديل بنجاح.';
-
+                        this.AddEditMessage = res.data.message  || res.data.massage ;
+                        
                         this.AddEditAlert = true;
                     }, 100);
                     console.log(res)
@@ -655,7 +655,7 @@ this.nationality_number = respons.nationality_number,
                     setTimeout(() => {
                         this.loading = false;
 
-                        this.AddEditMessage = err.response.data.message  || err.response.data.massage ;
+                        this.AddEditMessage = err.data.message  || err.data.massage ;
 
                         this.AddEditAlert = true;
 

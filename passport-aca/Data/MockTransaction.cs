@@ -302,24 +302,25 @@ namespace passport_aca.Data
                 throw;
             }   
         }
-
         public async Task<MassageInfo> UpdateTransaction(TransactionInfo transaction)
         {
             try
             {
                 MassageInfo massageInfo = new MassageInfo();
+                
+     
 
                 TransactionInfo transaction_update = await _data.transactions.FindAsync(transaction.id);
-                TransactionInfo fullName_u = await _data.transactions.FirstOrDefaultAsync(x =>( x.full_name == transaction.full_name || x.passport_number == transaction.passport_number) && x.id != transaction.id);
-                TransactionInfo passportNum_u = await _data.transactions.FirstOrDefaultAsync(x => (x.full_name == transaction.full_name || x.passport_number == transaction.passport_number) && x.id != transaction.id);
-                TransactionInfo transactionNum_u = await _data.transactions.FirstOrDefaultAsync(x => (x.full_name == transaction.full_name || x.passport_number == transaction.passport_number) && x.id != transaction.id);
+                TransactionInfo nationality_number = await _data.transactions.FirstOrDefaultAsync(x => x.nationality_number == transaction.nationality_number && x.id != transaction.id);
+                TransactionInfo finacial_recipt_number = await _data.transactions.FirstOrDefaultAsync(x => x.finacial_recipt_number == transaction.finacial_recipt_number && x.id != transaction.id);
+                TransactionInfo transactionNum_u = await _data.transactions.FirstOrDefaultAsync(x => x.transaction_number == transaction.transaction_number && x.id != transaction.id);
 
                 Historyes historyes = new Historyes();
          
 
                 if (transaction_update != null)
                 {
-                    if (transactionNum_u == null && fullName_u == null && passportNum_u == null)
+                    if (transactionNum_u == null && nationality_number == null && finacial_recipt_number == null)
                     {
                         transaction_update.full_name = transaction.full_name;
 
@@ -366,7 +367,7 @@ namespace passport_aca.Data
                         return massageInfo;
 
                     }
-                    else if (transactionNum_u != null && fullName_u == null && passportNum_u == null)
+                    else if (transactionNum_u != null && nationality_number == null && finacial_recipt_number == null)
                     {
 
                         transaction_update.full_name = transaction.full_name;
@@ -412,7 +413,8 @@ namespace passport_aca.Data
                         return massageInfo;
 
                     }
-                    else if (transactionNum_u == null && fullName_u != null && passportNum_u == null)
+
+                    else if (transactionNum_u == null && nationality_number != null && finacial_recipt_number == null)
                     {
 
                         transaction_update.passport_number = transaction.passport_number;
@@ -450,14 +452,14 @@ namespace passport_aca.Data
                         historyes.Time = DateTime.Now;
                         historyes.transactionid = transaction.transaction_number;
                         historyes.currentUser = transaction.UserId;
-                        historyes.changes = "  تمت عملية التعديل ماعدا الاسم ";
+                        historyes.changes = "  تمت عملية التعديل ماعدا الرقم الوطني ";
                         await _data.History.AddAsync(historyes);
 
-                        massageInfo.Massage = " لم تتم عملية التعديل علي حقل الاسم  الرجاء التأكد من عدم تكرار البيانات ";
+                        massageInfo.Massage = " لم تتم عملية التعديل علي حقل الرقم الوطني  الرجاء التأكد من عدم تكرار البيانات ";
                         massageInfo.statuscode = 203;
                         return massageInfo;
                     }
-                    else if (transactionNum_u == null && fullName_u == null && passportNum_u != null) {
+                    else if (transactionNum_u == null && nationality_number == null && finacial_recipt_number != null) {
                         transaction_update.full_name = transaction.full_name;
 
                         transaction_update.passport_number = transaction.passport_number;
@@ -495,10 +497,10 @@ namespace passport_aca.Data
                         historyes.Time = DateTime.Now;
                         historyes.transactionid = transaction.transaction_number;
                         historyes.currentUser = transaction.UserId;
-                        historyes.changes = "  تمت عملية التعديل ماعدا رقم الجواز";
+                        historyes.changes = "  تمت عملية التعديل ماعدا رقم الإيصال المالي";
                         await _data.History.AddAsync(historyes);
 
-                        massageInfo.Massage = "لم تتم عملية التعديل علي حقل  رقم الجواز الرجاء التأكد من عدم تكرار البيانات  ";
+                        massageInfo.Massage = "لم تتم عملية التعديل علي حقل  رقم الايصال المالي الرجاء التأكد من عدم تكرار البيانات  ";
                         massageInfo.statuscode = 203;
                         return massageInfo;
                     }
@@ -537,11 +539,11 @@ namespace passport_aca.Data
                         historyes.Time = DateTime.Now;
                         historyes.transactionid = transaction.transaction_number;
                         historyes.currentUser = transaction.UserId;
-                        historyes.changes = "  تمت عملية التعديل ماعدا رقم الجواز  ";
+                        historyes.changes = "  تمت عملية التعديل ماعدا رقم الإيصال المالي والرقم الوطني ورقم المعاملة  ";
                         await _data.History.AddAsync(historyes);
 
 
-                        massageInfo.Massage = " لم تتم عملية التعديل علي حقل الاسم ورقم المعاملة و رقم الجواز الرجاء التأكد من عدم تكرار البيانات";
+                        massageInfo.Massage = " لم تتم عملية التعديل علي حقل رقم الايصال المالي ورقم المعاملة و الرقم الوطني الرجاء التأكد من عدم تكرار البيانات";
                         massageInfo.statuscode = 203;
 
                         return massageInfo;
@@ -563,6 +565,7 @@ namespace passport_aca.Data
             }
         }
   
+
 
         public async Task<List<reports>> UsersReport()
         {
