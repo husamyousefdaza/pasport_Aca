@@ -15,5 +15,6 @@ namespace passport_aca.Model
         public string name { get; set; }
         public bool state { get; set; }
 
+        public int CountOftransaction { get; set; }
     }
 }

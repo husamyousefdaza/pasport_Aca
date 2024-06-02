@@ -236,12 +236,17 @@ namespace passport_aca.Data
 
                 List<Administrator> d = await _data.Administrator.OrderByDescending(x => x.id).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
                 pageing.total = _data.Administrator.Count();
-
+              
+             
                 foreach (var item in d)
                 {
-                    pageing.listofUser.Add(new AdministratorDto()
-                    { id = item.id, Password = item.Password, state = item.state, Username = item.Username 
 
+                    List<TransactionInfo> d1 = await _data.transactions.Where(x => x.UserId == item.id).ToListAsync();
+
+                    pageing.listofUser.Add(new AdministratorDto()
+                    { 
+                        id = item.id, Password = item.Password, state = item.state, Username = item.Username ,CountOftransaction = d1.Count()
+                        
                     });
 
 
@@ -251,7 +256,7 @@ namespace passport_aca.Data
 
                 return pageing;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
                 throw;
