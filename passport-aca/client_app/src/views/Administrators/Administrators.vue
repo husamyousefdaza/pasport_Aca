@@ -14,20 +14,33 @@
                     </div>
 
                     <div class="w-full mt-4 rounded-md overflow-hidden divide-y-2 divide-gray-200">
-                        <div class="flex items-center bg-white w-full">
-                            <div class="w-4/12 py-4 pr-2">
+                        <div class="flex justify-between bg-white w-full">
+                            <div class=" py-4 px-2">
                                 الاسم
                             </div>
-                        
+
+                            <div class=" py-4 pr-2 ml-4">
+                               عدد المعاملات
+                            </div>
+
+                            
                         </div>
 
                         <div class="divide-y divide-gray-200 min-h-80 ">
-                            <router-link :to="{ name: 'AdministratorsFormEdit', params: { administrato: administrato.id },}" v-for="administrato in Administrators" :key="administrato.id" class="w-full bg-white hover:shadow flex items-center">
-                                <div class="w-full py-4 pr-2 font-semibold text-black">
+                            <router-link :to="{ name: 'AdministratorsFormEdit', params: { administrato: administrato.id },}" v-for="administrato in Administrators" :key="administrato.id" class="w-full bg-white hover:shadow flex justify-between">
+                                <div class=" py-4 pr-2 font-semibold text-black text-center items-center">
                                     {{ administrato.username }}
                                 </div>
+
+
+                                <div class=" py-4 pr-2 ml-12 font-semibold text-black text-center items-center">
+                                {{ administrato.countOftransaction}}
+                            </div>
+
                            
                             </router-link>
+
+                         
                         </div>
 
                         <div class="bg-white flex  w-full">
