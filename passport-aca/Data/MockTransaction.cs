@@ -219,7 +219,7 @@ namespace passport_aca.Data
             try
             {
                 PageingDtocs fg = new PageingDtocs();
-                fg.TotalOfTransaction = _data.transactions.Count();
+              
                 bool transaction_num = false;
                 bool pass_status = false;
                 bool classifi = false;
@@ -230,6 +230,15 @@ namespace passport_aca.Data
                 bool r_name = false;
                 bool dev = false;
                 bool pict = false;
+                bool All = false;
+                if (picture_date != false || delivery_date != false)
+                {
+                    All = true;
+                }
+                else
+                {
+                    All = false;
+                }
                 if ( delivery_date == false)
                 {
                     dev = true;
@@ -263,7 +272,7 @@ namespace passport_aca.Data
                 if (resevedName == null) { r_name = true; } else { r_name = false; } 
 
 
-                var sersh = await _data.transactions.Where(x => (((x.create_at.Date >= date_from.Value.Date && x.create_at.Date <= date_to.Value.Date) && ( pict == true && dev == true) ) || false)
+                var sersh = await _data.transactions.Where(x => (((x.create_at.Date >= date_from.Value.Date && x.create_at.Date <= date_to.Value.Date) && (All == false)) || All == true)
                                    && (x.transaction_number == trnsacton_number || transaction_num==true)
                                    && (x.passport_status == passport_status || pass_status == true)
                                    && (x.classification == classification || classifi == true)
@@ -273,10 +282,25 @@ namespace passport_aca.Data
                                    && (x.finacial_recipt_number == finacial_recipt_number || finacial_number == true)
                                    && ((x.resevedName.Contains(resevedName) && r_name == false) || r_name == true)
                                    && (((x.delivery_date.Date >= date_from.Value.Date && x.delivery_date.Date <= date_to.Value.Date) && (dev == false))  || dev == true)
-                                   && (((x.picture_date.Date >= date_from.Value.Date && x.picture_date.Date <= date_to.Value.Date)   && (pict == false)) || pict == true)
+                                   && (((x.picture_date.Date >= date_from.Value.Date && x.picture_date.Date <= date_to.Value.Date)  && (pict == false)) || pict == true)
 
                                      ).OrderByDescending(x => x.update_at).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
-                                  
+
+                var sersh1 = await _data.transactions.Where(x => (((x.create_at.Date >= date_from.Value.Date && x.create_at.Date <= date_to.Value.Date) && (All == false)) || All == true)
+                             && (x.transaction_number == trnsacton_number || transaction_num == true)
+                             && (x.passport_status == passport_status || pass_status == true)
+                             && (x.classification == classification || classifi == true)
+                             && ((x.full_name.Contains(full_name) && f_name == false) || f_name == true)
+                             && (x.nationality_number == nationality_number || nation_number == true)
+                             && ((x.from_who.Contains(from_who) && f_who == false) || f_who == true)
+                             && (x.finacial_recipt_number == finacial_recipt_number || finacial_number == true)
+                             && ((x.resevedName.Contains(resevedName) && r_name == false) || r_name == true)
+                             && (((x.delivery_date.Date >= date_from.Value.Date && x.delivery_date.Date <= date_to.Value.Date) && (dev == false)) || dev == true)
+                             && (((x.picture_date.Date >= date_from.Value.Date && x.picture_date.Date <= date_to.Value.Date) && (pict == false)) || pict == true)
+
+                               ).OrderByDescending(x => x.update_at).ToListAsync();
+
+                fg.TotalOfTransaction = sersh1.Count();
                 foreach (var item in sersh)
                 {
 
@@ -293,7 +317,7 @@ namespace passport_aca.Data
                         id = item.id
                     });
                 }
-                
+               
 
                 return fg;
             }
