@@ -263,7 +263,7 @@ namespace passport_aca.Data
                 if (resevedName == null) { r_name = true; } else { r_name = false; } 
 
 
-                var sersh = await _data.transactions.Where(x => (((x.create_at.Date >= date_from.Value.Date && x.create_at.Date <= date_to.Value.Date) && ( pict == true && dev == true)) || true)
+                var sersh = await _data.transactions.Where(x => (((x.create_at.Date >= date_from.Value.Date && x.create_at.Date <= date_to.Value.Date) && ( pict == true && dev == true) ) || false)
                                    && (x.transaction_number == trnsacton_number || transaction_num==true)
                                    && (x.passport_status == passport_status || pass_status == true)
                                    && (x.classification == classification || classifi == true)
